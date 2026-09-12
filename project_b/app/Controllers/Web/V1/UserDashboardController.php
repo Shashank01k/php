@@ -41,6 +41,7 @@ class UserDashboardController extends BaseController
         );
 
         $data = [
+            'title' => 'Dashboard',
             'userDataArray' => $tableData,
             'total' => $total,
             'paginationLinks' => $paginationLinks,

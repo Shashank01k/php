@@ -81,7 +81,10 @@ class UserLoginController extends BaseController
 
     public function signIn()
     {
-        $data = [];
+        $data = [
+            'title' => 'User Login',
+        ];
+
         helper(['form']);
         if($this->request->getMethod() == 'POST'){
 

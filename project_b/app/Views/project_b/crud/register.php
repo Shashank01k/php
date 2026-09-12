@@ -1,8 +1,5 @@
-<?php
-// print_R($statesArrayData); die;
- ?>
-<!doctype html>
-<html lang="en">
+<!-- <!doctype html>
+<html lang="en"> -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +7,12 @@
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/style.css">
     <title>Codeigniter User Registration</title>
 </head>
+
+<?= $this->extend('layouts/main') ?>
+
+<?= $this->section('content') ?>
+
+
 <body>
     <div class="container martop">
         <div class="col-md-6 center_div">
@@ -112,4 +115,6 @@
         </div>
     </div>
 </body>
-</html>
+<!-- </html> -->
+
+<?= $this->endSection() ?>

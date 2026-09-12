@@ -107,6 +107,10 @@ class UserRegisterController extends BaseController
         $rules = [];
         $countryID = 101;
 
+        $data = [
+            'title' => 'User Registration',
+        ];
+
         $statesData = $this->states->where('country_id',$countryID)->get();
         $statesArrayData = $statesData->getResultArray();
         $data['statesArrayData'] = $statesArrayData;

@@ -30,6 +30,7 @@ class UserUpdateController extends BaseController
         $statesData = $this->states->where('country_id',$countryID)->get();
         $statesArrayData = $statesData->getResultArray();
         $data['statesArrayData'] = $statesArrayData;
+        $data['title'] = 'User Updation';
         
         // echo $this->request->getMethod(); die;
         helper(['form']);
