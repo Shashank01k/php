@@ -16,4 +16,5 @@
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/sign_in.css">
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/footer.css">
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/dashboard.css">
+    <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/welcome.css">
 </head>
