@@ -15,7 +15,6 @@ use Config\Database;
 class UserDashboardController extends BaseController
 {
     public function __construct() {
-        //call constatnt and utils class        
     }
 
 
