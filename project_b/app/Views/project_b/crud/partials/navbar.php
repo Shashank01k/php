@@ -1,46 +1,91 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<?php use App\Models\User; ?>
+
+<?php
+    $userModal = getLoggedInUser()['userModel'];
+    $loggedinUserid = $userModal['id'];
+    $userType = $userModal['user_type'];
+
+    $userTypeUrl = 'users';
+    if($userType == User::SUPER_ADMIN) {
+        $userTypeUrl = 'admin';
+    }
+?>
+
+<nav class="navbar navbar-dark bg-dark">
+
     <div class="container-fluid">
-        <a class="navbar-brand" href="https://twitter.com/01k_shashank">INNsight</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php echo base_url()?>dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url()?>sign_up">Add User</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url()?>seeder">Seeder</a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#confirmLogoutModal">Logout</a>
-                </li>
+        <div class="d-flex align-items-center">
 
-                <div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="confirmLogoutModalLabel">Confirm Logout</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure you want to logout?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="<?php echo base_url()?>logout">Yes</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ul>
+            <!-- Sidebar Toggle -->
+            <button type="button"
+                    class="btn btn-dark me-2"
+                    id="sidebarToggle">
+
+                <i class="fa fa-bars"></i>
+
+            </button>
+
+            <!-- Company Name -->
+            <a class="navbar-brand fw-bold"
+               href="<?= site_url('/') ?>">
+
+                <i class="fa fa-building me-2"></i>
+                <?= commonData('companyName') ?>
+
+            </a>
+
         </div>
+
+        <!-- Right Side Profile -->
+        <div class="dropdown">
+
+            <button class="btn btn-dark dropdown-toggle"
+                    type="button"
+                    id="profileDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+
+                <i class="fa fa-user-circle me-1"></i>
+                User
+
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow"
+                aria-labelledby="profileDropdown">
+
+                <li>
+                    <a class="dropdown-item"
+                       href="<?= site_url($userTypeUrl.'/profile') ?>">
+                        <i class="fa fa-user me-2"></i>
+                        My Profile
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item"
+                       href="<?= site_url($userTypeUrl.'/profile/update/' . $loggedinUserid) ?>">
+                        <i class="fa fa-edit me-2"></i>
+                        Edit Profile
+                    </a>
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                    <a class="dropdown-item text-danger"
+                       href="<?= site_url($userTypeUrl.'/logout') ?>">
+                        <i class="fa fa-sign-out me-2"></i>
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
+
 </nav>

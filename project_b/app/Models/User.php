@@ -16,12 +16,32 @@ class User extends Model
     protected $beforeUpdate    = [];
     protected $beforeInsert    = ['beforeInsert'];
 
+    public const SUPER_ADMIN = 1;
+    public const ADMIN       = 2;
+    public const SUB_ADMIN   = 3;
+    public const USER        = 4;
+
     protected $hidden = [
         'password',
+        'temp_password',
         'deleted_at'
     ];
-    // protected $allowedFields    = ['id','first_name','last_name','user_name','email','phone','password','token','gender','state','created_at','updated_at','deleted_at'];
-    protected $allowedFields    = ['id','first_name','last_name','user_name','email','phone','password','token','gender','state','created_at','deleted_at'];
+    protected $allowedFields = [
+        'id',
+        'first_name',
+        'last_name',
+        'user_name',
+        'email',
+        'phone',
+        'password',
+        'token',
+        'user_type',
+        'gender',
+        'state',
+        'temp_password',
+        'created_at',
+        'deleted_at'
+    ];
 
     protected function beforeInsert(array $data)
     {
@@ -44,33 +64,11 @@ class User extends Model
         return $data;
     }
 
-    // protected bool $allowEmptyInserts = false;
-    // protected bool $updateOnlyChanged = true;
-
-    // protected array $casts = [];
-    // protected array $castHandlers = [];
-
-    // // Dates
-    // protected $useTimestamps = false;
-    // protected $dateFormat    = 'datetime';
-    // protected $createdField  = 'created_at';
-    // protected $updatedField  = 'updated_at';
-    // protected $deletedField  = 'deleted_at';
-
-    // // Validation
-    // protected $validationRules      = [];
-    // protected $validationMessages   = [];
-    // protected $skipValidation       = false;
-    // protected $cleanValidationRules = true;
-
-    // // Callbacks
-    // protected $allowCallbacks = true;
-    // protected $beforeInsert   = [];
-    // protected $afterInsert    = [];
-    // protected $beforeUpdate   = [];
-    // protected $afterUpdate    = [];
-    // protected $beforeFind     = [];
-    // protected $afterFind      = [];
-    // protected $beforeDelete   = [];
-    // protected $afterDelete    = [];
+    public function getUserWithState($userId)
+    {
+        return $this->select('users.*, states.name as state_name')
+            ->join('states', 'states.id = users.state', 'left')
+            ->where('users.id', $userId)
+            ->first();
+    }
 }

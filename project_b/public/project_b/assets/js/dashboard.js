@@ -50,8 +50,12 @@ function deleteAllRows() {//TODO:this function is not completed::
     });
 }
 
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
+document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+        new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 });
 
 // var titleText = '';

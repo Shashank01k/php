@@ -14,7 +14,7 @@
         <div class="alert alert-danger" role="alert" style="font-size: 12px;">Entered Password not match!</div>
         <br>
     <?php endif;?>
-    <h5><center>Admin Login</center></h5>
+    <h5><center>Users Login</center></h5>
     <div class="logo">
         <img src="<?php echo base_url()?>project_b/assets/images/innsight_logo.png" alt="">
     </div>

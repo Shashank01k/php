@@ -1,0 +1,107 @@
+/* Main wrapper */
+.page-with-sidebar {
+    min-height: 100vh;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 200px;
+    height: 100vh;
+
+    background: #212529;
+    color: white;
+
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
+
+    z-index: 1040;
+}
+
+
+/* Sidebar open */
+.page-with-sidebar.sidebar-open .sidebar {
+    transform: translateX(0);
+}
+
+
+/* =========================
+   SIDEBAR HEADER
+========================= */
+
+.sidebar-header {
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   SIDEBAR MENU
+========================= */
+
+.sidebar-menu {
+    padding-top: 10px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 14px 20px;
+
+    color: #adb5bd;
+
+    text-decoration: none;
+}
+
+.sidebar-link:hover {
+    color: white;
+    background: rgba(255,255,255,0.08);
+}
+
+.sidebar-link i {
+    width: 20px;
+    text-align: center;
+}
+
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+.page-with-sidebar .navbar,
+.page-with-sidebar main,
+.page-with-sidebar footer {
+    margin-left: 0;
+
+    transition: margin-left 0.3s ease;
+}
+
+
+/* Move page when sidebar opens */
+.page-with-sidebar.sidebar-open .navbar,
+.page-with-sidebar.sidebar-open main,
+.page-with-sidebar.sidebar-open footer {
+    margin-left: 200px;
+}

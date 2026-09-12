@@ -6,37 +6,86 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
- $routes->setDefaultNamespace('App\Controllers');
- $routes->setDefaultController('Home');
- $routes->setDefaultMethod('index');
- $routes->setTranslateURIDashes(false);
- $routes->set404Override();
+$routes->setDefaultNamespace('App\Controllers');
+$routes->setDefaultController('Home');
+$routes->setDefaultMethod('index');
+$routes->setTranslateURIDashes(false);
+$routes->set404Override();
 $routes->get('/', 'Home::index');
 
 
-// $routes->get('/login','UserLoginController::login');
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+| Admin Authentication
+|--------------------------------------------------------------------------
+|
+*/
 
-// $routes->match(['get','post'],'/testA','Web\V1\UserLoginController::login',['filter' => 'noauth']);
-// echo "vnhu"; die;
+$routes->group('admin', static function ($routes) {
+    $namespaceAdminV1 = 'Web\V1\Admin';
+
+    $routes->match(['get','post'], 'login', $namespaceAdminV1.'\Auth\AuthController::login');
+    $routes->match(['get','post'], 'login/submit', $namespaceAdminV1.'\Auth\AuthController::loginSubmit');
+
+    $routes->get('/', $namespaceAdminV1.'\Auth\AuthController::login');
+    $routes->get('logout', $namespaceAdminV1.'\Auth\AuthController::logout');
+});
 
 $namespaceWebV1 = 'Web\V1';
+
+/*
+|--------------------------------------------------------------------------
+| Protected Admin Routes
+|--------------------------------------------------------------------------
+*/
+$routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use ($namespaceWebV1) {
+    // Dashboard
+    $routes->get('index', $namespaceWebV1.'\UserDashboardController::index');
+
+    // Seeder
+    $routes->match([
+        'get',
+        'post'
+    ],
+    'seeder', $namespaceWebV1.'\UserDashboardController::insertDummyData');
+});
+
+$routes->group('users', ['filter' => 'auth'], static function ($routes) use ($namespaceWebV1) {
+    $routes->match(['get','post'],'dashboard',$namespaceWebV1.'\UserDashboardController::dashboard');
+    $routes->match(['get','post'],'profile',$namespaceWebV1.'\UserDashboardController::profile');
+
+    $routes->match(['get','post'],'profile/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1');
+});
 
 $routes->match(['get','post'],'/sign_in',$namespaceWebV1.'\UserLoginController::signIn');
 $routes->match(['get','post'], '/sign_up',$namespaceWebV1.'\UserRegisterController::signUp');
 
-$routes->match(['get','post'],'/login',$namespaceWebV1.'\UserLoginController::login');
+$routes->match(['get','post'],'/',$namespaceWebV1.'\UserLoginController::signIn');
+$routes->match(['get','post'],'/users/login',$namespaceWebV1.'\UserLoginController::signIn');
 $routes->match(['get','post'],'/logout',$namespaceWebV1.'\UserLoginController::logout');
-
+$routes->match(['get','post'],'/users/logout',$namespaceWebV1.'\UserLoginController::logout');
 
 $routes->match(['get','post'], '/register',$namespaceWebV1.'\UserRegisterController::registration');
-$routes->match(['get','post'],'/dashboard',$namespaceWebV1.'\UserDashboardController::dashboard',['filter' => 'auth']);
+// $routes->match(['get','post'],'/dashboard',$namespaceWebV1.'\UserDashboardController::dashboard',['filter' => 'auth']);
 $routes->match(['get','post'], '/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1',['filter' => 'auth']);
 $routes->match(['get','post'], '/delete/(:any)',$namespaceWebV1.'\UserDeleteController::delete/$1',['filter' => 'auth']);
 $routes->match(['get','post'], '/delete/all/(:any)',$namespaceWebV1.'\UserDeleteController::deleteAll',['filter' => 'auth']);
 $routes->match(['get','post'], '/terms',$namespaceWebV1.'\UserDashboardController::terms',['filter' => 'auth']);
-$routes->match(['get','post'], '/seeder',$namespaceWebV1.'\UserDashboardController::inserDummyData',['filter' => 'auth']);
+// $routes->match(['get','post'], '/seeder',$namespaceWebV1.'\UserDashboardController::inserDummyData',['filter' => 'auth']);
 
 // if(is_file(APPPATH . 'Config/'). ENVIRONMENT . '/Routes.php'){
 //     require APPPATH . 'Config/'. ENVIRONMENT . '/Routes.php';
 // }
 //C:\xampp\htdocs\codeIgniter\project_b\app\Config\Routes.php
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin APIs
+|--------------------------------------------------------------------------
+*/
+$namespaceApiV1 = 'Api\V1';
+
+$routes->post('/api/v1/admin/register', $namespaceApiV1.'\Auth\AuthController::register');

@@ -32,14 +32,13 @@ class UserUpdateController extends BaseController
         $data['statesArrayData'] = $statesArrayData;
         $data['title'] = 'User Updation';
         
-        // echo $this->request->getMethod(); die;
         helper(['form']);
         
         if($this->request->getMethod() == 'POST'){
             $rules = [
                 'firstname' => 'required|regex_match[/^[a-zA-Z .]+$/]|min_length[3]|max_length[50]',
                 'lastname' => 'required|regex_match[/^[a-zA-Z .]+$/]|min_length[2]|max_length[50]',
-                'email' => 'required|min_length[8]|max_length[100]|valid_email',
+                // 'email' => 'required|min_length[8]|max_length[100]|valid_email',
                 'phone' => 'required|trim|required|numeric|min_length[10]|max_length[10]',
                 'gender' => 'required',
                 'state' => 'required',
@@ -58,7 +57,6 @@ class UserUpdateController extends BaseController
                     'last_name' => $lastName,
                     'user_name' => $userName,
                     'phone' => $this->request->getVar('phone'),
-                    'email' => $this->request->getVar('email'),
                     'gender' => $this->request->getVar('gender'),
                     'state' => $this->request->getVar('state'),
                 ];
@@ -70,7 +68,6 @@ class UserUpdateController extends BaseController
                 session()->remove('updateMessage');
 
                 if($db->affectedRows()){
-                    // echo "fjii"; die;
                     $data['updateMessage'] = "Updated Successfully";
 
                     // $this->session->start();

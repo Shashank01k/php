@@ -44,12 +44,6 @@ abstract class BaseController extends Controller
     protected $session;
 
     /**
-     * Summary of commonData
-     * @var array
-     */
-    protected $commonData = [];
-
-    /**
      * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -60,23 +54,5 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         $this->session = \Config\Services::session();
-
-        // Common data
-        $this->commonData = [
-            'siteName' => 'My Website',
-            'companyName' => 'My Company',
-            'menuItems' => [
-                'Home',
-                'About',
-                'Contact'
-            ]
-        ];
-    }
-
-    protected function render($view, $data = [])
-    {
-        $data = array_merge($this->commonData, $data);
-
-        return view($view, $data);
     }
 }

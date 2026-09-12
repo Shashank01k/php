@@ -10,11 +10,6 @@ class Auth implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // $auth = service('auth');
-
-        // if (! $auth->isLoggedIn()) {
-        //     return redirect()->to(site_url('login'));
-        // }
 
         if(!session()->get('isLoggedIn')){
             return redirect()->to('/');;

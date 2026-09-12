@@ -8,14 +8,12 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class UserLoginController extends BaseController
 {
-    public function login()
+    public function loginRemoveThisMethod()
     {
         $data = [];
         //
         $getMethod = $this->request->getMethod();
-        print_R($getMethod);
-        echo 77;
-        // die;
+        
         helper(['form']);
         if($this->request->getMethod() == 'POST'){
 
@@ -49,7 +47,6 @@ class UserLoginController extends BaseController
                     }
                 } else {
                     // No data retrieved
-                    // echo "data not found "; die;
                     $data['validation'] = "Entered email id not found in the system!";
                 }
             }
@@ -85,6 +82,10 @@ class UserLoginController extends BaseController
             'title' => 'User Login',
         ];
 
+        if (session()->get('isLoggedIn')) {
+            return redirect()->to('users/dashboard');
+        }
+
         helper(['form']);
         if($this->request->getMethod() == 'POST'){
 
@@ -104,13 +105,13 @@ class UserLoginController extends BaseController
 
                 $userEmail = $this->request->getVar('email');
                 $userPassword =  $this->request->getVar('password');
-                $userModelData = $userModel->where('email',$userEmail)->first();
+                $userModelData = $userModel->where('email',$userEmail)->where('user_type', User::USER)->first();
 
                 if ($userModelData !== null) { 
                     if(password_verify($userPassword,$userModelData['password']))
                     {
                         $this->setUserSession($userModelData);
-                        return redirect()->to('/dashboard');
+                        return redirect()->to('users/dashboard');
                     } else{
                         $data['flashMessage'] = TRUE;
     
@@ -120,6 +121,6 @@ class UserLoginController extends BaseController
                 }
             }
         }
-        return view('project_b/crud/sign_in.php',$data);
+        return view('project_b/crud/sign_in',$data);
     }
 }

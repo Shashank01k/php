@@ -1,25 +1,34 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title><?= $title ?? 'My Website' ?></title>
-</head>
-
 <body>
+    <div class="page-with-sidebar">
+        <!-- Header -->
+        <?= $this->include('project_b/crud/partials/header') ?>
 
-    <?= $this->include('project_b/crud/partials/header') ?>
+        <!-- Navbar -->
+        <?php if (session()->get('isLoggedIn')): ?>
+            <?= $this->include('project_b/crud/partials/navbar') ?>
+        <?php endif; ?>
+        
+        <!-- Sidebar | Side Menus -->
+        <?= $this->include('project_b/crud/partials/sidebar') ?>
 
-    <?= $this->include('project_b/crud/partials/navbar') ?>
+        <!-- Main Page Content -->
+        <main>
+            <?= $this->renderSection('content') ?>
+        </main>
 
-    <main>
-        <?= $this->renderSection('content') ?>
-    </main>
+        <!-- Footer -->
+        <?= $this->include('project_b/crud/partials/footer') ?>
+    </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <?= $this->include('project_b/crud/partials/footer') ?>
-
+    <script src="<?= base_url('project_b/assets/js/sidebar.js') ?>"></script>
 </body>
 
 </html>

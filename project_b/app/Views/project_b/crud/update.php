@@ -32,7 +32,7 @@
                 <br>
             <?php endif;?>
 
-            <form action="<?php echo base_url(); ?>update/<?php echo $userDataArray['id'];?>" method="POST">
+            <form action="<?php echo base_url(); ?>users/profile/update/<?php echo $userDataArray['id'];?>" method="POST">
                 <!-- <form action="/register" method="POST"> -->
 
                         <div class="form-group">
@@ -53,10 +53,15 @@
                             <input type="phone" name="phone" placeholder="Enter Your Mobile Number" value="<?php echo $userDataArray['phone'];?>" class="form-control" >
                         </div>
                         <br>
-                        <div class="form-group">
+                       <div class="form-group">
                             <label for="email">Email:</label>
                             <br>
-                            <input type="email" name="email" placeholder="Email" value="<?php echo $userDataArray['email'];?>" class="form-control" >
+                            <input type="email"
+                                name="email"
+                                placeholder="Email"
+                                value="<?= esc($userDataArray['email']) ?>"
+                                class="form-control email-blur"
+                                readonly>
                         </div>
                         <br>
                         <div class="for-group">

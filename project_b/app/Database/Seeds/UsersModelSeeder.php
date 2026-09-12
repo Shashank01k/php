@@ -40,9 +40,11 @@ class UsersModelSeeder
                 "email" => $faker->email,
                 "phone" => rand(1111111111,9999999999),
                 "password" => $password,
-                "token" => $rememberToken,
+                "temp_password" => $rememberToken,
+                "token" => null,
                 "gender" => $gender,
                 "state" => $stateId,
+                'user_type' => User::USER,
             ];
             $usersResponse = $usersModel->save($data);
         }

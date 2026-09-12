@@ -38,7 +38,6 @@ class CreateUsersTable extends Migration
             'token' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'comment' => 'Token for password reset or authentication',
             ],
             'phone' => [
                 'type' => 'VARCHAR',

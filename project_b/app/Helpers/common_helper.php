@@ -5,7 +5,7 @@ if (! function_exists('commonData')) {
     {
         $data = [
             'siteName'    => 'My Website',
-            'companyName' => 'My Company',
+            'companyName' => 'SHREE TADAK NATH',
 
             'menuItems' => [
                 'Home',

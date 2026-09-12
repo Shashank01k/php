@@ -1,0 +1,11 @@
+.email-blur {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* use if want to hide email */
+/* .email-blur {
+    filter: blur(2px);
+    cursor: not-allowed;
+} */

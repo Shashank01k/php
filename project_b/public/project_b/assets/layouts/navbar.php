@@ -17,7 +17,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#confirmLogoutModal">Logout</a>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#confirmLogoutModal">Logout</a>
         </li>
 
         <div class="modal fade" id="confirmLogoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">

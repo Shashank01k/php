@@ -8,7 +8,4 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/style.css">
     <link rel="stylesheet" href="<?php echo base_url()?>/project_b/assets/css/footer.css">
-
-    <?php include "project_b/assets/layouts/navbar.php"?>
-    <!-- <title>Dashboard</title> -->
 </head>
