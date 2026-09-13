@@ -17,33 +17,6 @@ function deSelect(){
     }  
 }
 
-// delete selected checkbox
-function deleteAllRows111() {//TODO:this function is not completed::
-
-     var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        var selectedValues = [];
-        checkboxes.forEach(function(checkbox) {
-            selectedValues.push(checkbox.value);
-            // You can also remove the row from the table here if needed
-            checkbox.parentNode.parentNode.remove();
-        });
-
-    fetch('users/delete/all/', {
-        method: 'POST',
-        body: JSON.stringify({ checkboxValue: selectedValues }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.jsonParse())
-    .then(data => {
-        console.log(data); // Log the response data
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:'+ error);
-    });
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
 
@@ -76,60 +49,48 @@ function copyUserNameValue(titleText) {
     // alert("Copied the text: " + titleText);
 }
 
-
 function deleteAllRows() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
-    const selectedValues = [];
-    checkboxes.forEach(function (checkbox) {
-        selectedValues.push(checkbox.value);
-    });
+    const selectedIds = [...document.querySelectorAll(
+        '.user-checkbox:checked'
+    )].map(checkbox => checkbox.value);
 
-    if (selectedValues.length === 0) {
-        alert('Please select at least one user.');
+    if (!selectedIds.length) {
         return;
     }
 
-    // Build Form Data
+    if (!confirm(
+        `Are you sure you want to delete ${selectedIds.length} user(s)?`
+    )) {
+        return;
+    }
+
     const params = new URLSearchParams();
-    selectedValues.forEach(function (id) {
+
+    selectedIds.forEach(id => {
         params.append('checkboxValue[]', id);
     });
 
-    // Add CSRF Token
     params.append(csrfTokenName, csrfHash);
 
-    // Send AJAX Request
-    fetch('/admin/users/delete/all', {
+    fetch('/users/delete/all', {
         method: 'POST',
         body: params,
-        credentials: 'same-origin', // Crucial: Sends current admin session cookie
+        credentials: 'same-origin',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(async (response) => {
-        // If session expired or filter rejected request
-        if (response.status === 401) {
-            alert('Session expired. Please log in again.');
-            window.location.href = '/admin/login';
-            return;
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.status) {
+            window.location.reload();
         }
 
-        if (!response.ok) {
-            throw new Error('Server returned an error');
-        }
-
-        return response.json();
     })
-    .then((data) => {
-        if (data && data.status === 'success') {
-            alert(data.message || 'Users deleted successfully.');
-            location.reload(); // Refresh table view
-        }
-    })
-    .catch((error) => {
-        console.error('AJAX Error:', error);
+    .catch(error => {
+        console.error('Delete error:', error);
     });
 }

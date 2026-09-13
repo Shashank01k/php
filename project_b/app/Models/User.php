@@ -82,6 +82,8 @@ class User extends Model
 
     public function paginateNews(int $perPage = 5, int $page = 1)
     {
+        $id = session()->get('id');
+
         $offset = ($page - 1) * $perPage;
 
         $builder = $this->db->table('users AS u');
@@ -102,7 +104,7 @@ class User extends Model
             ->join('states AS st', 'u.state = st.id', 'left')
             ->where('st.country_id', 101)
             ->where('u.deleted_at', null)
-            ->where('u.deleted_at', null)
+            ->where('u.created_by', $id)
             ->where('user_type', User::USER)
             ->limit($perPage, $offset)
             ->get();
@@ -116,10 +118,13 @@ class User extends Model
      */
     public function getTotalCount()
     {
+        $id = session()->get('id');
+
         $builder = $this->db->table('users AS u');
 
         return $builder
             ->join('states AS st', 'u.state = st.id', 'left')
+            ->where('u.created_by', $id)
             ->where('st.country_id', 101)
             ->where('u.deleted_at', null)
             ->where('user_type', User::USER)

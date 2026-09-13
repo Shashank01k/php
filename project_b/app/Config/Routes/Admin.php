@@ -42,7 +42,6 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
     $routes->get('users/register',$namespaceWebV1.'\UserRegisterController::signUp');
     $routes->post('users/register',$namespaceWebV1.'\UserRegisterController::signUpSubmit');
 
-
     $routes->match(['get','post'], 'profile/update/(:any)' ,$namespaceWebV1.'\UserUpdateController::update/$1');
 
     $routes->match(['get','post'], 'users/profile/update/(:any)', $namespaceWebV1.'\UserUpdateController::update/$1');
@@ -54,11 +53,10 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
         $namespaceAdminV1.'\UserDeleteController::delete/$1'
     );
 
-    $routes->post(
-        'users/delete/all',
-        $namespaceAdminV1 . '\UserDeleteController::deleteAll'
-    );
-
+    // $routes->post(
+    //     'users/delete/all',
+    //     $namespaceAdminV1 . '\UserDeleteController::deleteAll'
+    // );
 
     // Assignment list
     $routes->get(
@@ -86,3 +84,9 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
         $namespaceAdminV1 . '\AssignmentController::delete/$1'
     );
 });
+
+// Delete All Selected Users Data
+$routes->post(
+    'users/delete/all',
+    $namespaceAdminV1 . '\UserDeleteController::deleteAll'
+);

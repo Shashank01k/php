@@ -48,7 +48,7 @@
                             Manage your account settings.
                         </p>
 
-                        <a href="<?= base_url('profile/edit') ?>"
+                        <a href="<?= base_url('users/profile/update/'. session()->get('id')) ?>"
                         class="btn btn-dark">
                             Edit Profile
                         </a>

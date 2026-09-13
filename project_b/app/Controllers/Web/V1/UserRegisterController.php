@@ -23,6 +23,17 @@ class UserRegisterController extends BaseController
         $this->fnUtils = new FnUtils;
     }
 
+    public function test()
+    {
+        return json_encode([
+            'status'  => 'success',
+            'message' => 'User created successfully',
+            'received' => [
+                'name'  => 'sahah',
+                'email' => "email"
+            ]
+        ]);
+    }
     public function signUp()
     {
         $data = [

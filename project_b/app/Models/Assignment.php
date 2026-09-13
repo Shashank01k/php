@@ -66,11 +66,13 @@ class Assignment extends Model
 
             'pendingAssignments' => (clone $baseQuery)
                 ->where('status', 'pending')
+                ->where('is_active', 1)
                 ->where('created_by', $id)
                 ->countAllResults(),
 
             'completedAssignments' => (clone $baseQuery)
                 ->where('created_by', $id)
+                ->where('is_active', 1)
                 ->where('status', 'completed')
                 ->countAllResults(),
         ];

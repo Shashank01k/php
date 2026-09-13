@@ -18,6 +18,11 @@ class UserUpdateController extends BaseController
 
     public function update($userId)
     {
+        //TODO:make two method get and post
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to('/admin/login');
+        }
+
         $data = [];
         $rules = [];
 
@@ -37,8 +42,8 @@ class UserUpdateController extends BaseController
         if($this->request->getMethod() == 'POST'){
             $rules = [
                 'firstname' => 'required|regex_match[/^[a-zA-Z .]+$/]|min_length[3]|max_length[50]',
-                'lastname' => 'required|regex_match[/^[a-zA-Z .]+$/]|min_length[2]|max_length[50]',
-                // 'email' => 'required|min_length[8]|max_length[100]|valid_email',
+                'lastname' => 'required',
+                'email' => 'required|min_length[8]|max_length[100]|valid_email',
                 'phone' => 'required|trim|required|numeric|min_length[10]|max_length[10]',
                 'gender' => 'required',
                 'state' => 'required',

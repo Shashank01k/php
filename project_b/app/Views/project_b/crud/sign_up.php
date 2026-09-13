@@ -286,7 +286,7 @@
                                     placeholder="Confirm Password"
                                 >
 
-                            </div>
+                            </div>App
 
                         </div>
 

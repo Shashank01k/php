@@ -22,25 +22,39 @@ class UserDeleteController extends BaseController
 
     public function deleteAll()
     {
-        $data = $this->request->getJSON(true);
+        $selectedValues = $this->request->getPost('checkboxValue');
 
-        $selectedValues = $data['checkboxValue'] ?? [];
-
-        if (empty($selectedValues)) {
+        if (empty($selectedValues) || !is_array($selectedValues)) {
             return $this->response->setJSON([
-                'status'  => false,
-                'message' => 'No users selected'
+                'status' => false,
+                'message' => 'No users selected.'
             ]);
         }
 
-        // Logged-in admin
-        $loggedInUserId = session()->get('id');
+        // Convert IDs to integers
+        $selectedValues = array_map('intval', $selectedValues);
+
+        // Logged-in user
+        $loggedInUserId = (int) session()->get('id');
+
+        // Prevent deleting own account
+        $selectedValues = array_diff($selectedValues, [$loggedInUserId]);
+
+        if (empty($selectedValues)) {
+            return $this->response->setJSON([
+                'status' => false,
+                'message' => 'You cannot delete your own account.'
+            ]);
+        }
+
+        $userModel = new User();
+
+        $userModel->whereIn('id', $selectedValues)
+            ->delete();
 
         return $this->response->setJSON([
-            'status'       => true,
-            'message'      => 'deleteAll method executed successfully',
-            'selected_ids' => $selectedValues,
-            'deleted_by'   => $loggedInUserId
+            'status' => true,
+            'message' => 'Users deleted successfully.'
         ]);
     }
 }

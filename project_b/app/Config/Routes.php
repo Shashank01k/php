@@ -20,6 +20,16 @@ $routes->group('users', ['filter' => 'auth'], static function ($routes) use ($na
     $routes->match(['get','post'],'profile',$namespaceWebV1.'\UserDashboardController::profile');
 
     $routes->match(['get','post'],'profile/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1');
+
+    $routes->get(
+        'assignments',
+        $namespaceWebV1 . '\UserAssignmentController::index'
+    );
+
+    $routes->get(
+        'assignments/view/(:num)',
+        $namespaceWebV1 . '\UserAssignmentController::view/$1'
+    );
 });
 
 $routes->get('users/register',$namespaceWebV1.'\UserRegisterController::signUp');
@@ -31,7 +41,7 @@ $routes->match(['get','post'],'users/login',$namespaceWebV1.'\UserLoginControlle
 $routes->match(['get','post'],'/logout',$namespaceWebV1.'\UserLoginController::logout');
 $routes->match(['get','post'],'users/logout',$namespaceWebV1.'\UserLoginController::logout');
 
-$routes->match(['get','post'], '/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1',['filter' => 'auth']);
+// $routes->match(['get','post'], '/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1',['filter' => 'auth']);
 $routes->match(['get','post'], '/terms',$namespaceWebV1.'\UserDashboardController::terms',['filter' => 'auth']);
 
 $routes->get('csrf-token', static function () {
@@ -60,3 +70,8 @@ require APPPATH . 'Config/Routes/Admin.php';
 |
 */
 require APPPATH . 'Config/Routes/Api.php';
+
+$routes->post('users/create', $namespaceWebV1.'\UserRegisterController::test');
+
+// $routes->post('users/delete/all', $namespaceWebV1.'\UserRegisterController::test');
+// $routes->post('admin/users/delete/all', $namespaceWebV1.'\UserRegisterController::test');

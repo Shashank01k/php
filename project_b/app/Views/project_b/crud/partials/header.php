@@ -2,6 +2,8 @@
     <meta charset="UTF-8">
     <meta name="viewport"content="width=device-width, initial-scale=1.0">
     <meta name="<?= csrf_header() ?>" content="<?= csrf_hash() ?>">
+    <meta name="csrf-header" content="<?= csrf_header() ?>">
+    <meta name="csrf-hash" content="<?= csrf_hash() ?>">
 
     <title><?= esc($title ?? 'My Website') ?></title>
 

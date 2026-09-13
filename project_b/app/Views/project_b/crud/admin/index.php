@@ -23,7 +23,7 @@
 
     <!-- Profile Section -->
     <div class="mb-4">
-        <?= $this->include('project_b/crud/admin/sections/profile') ?>
+        <!-- $this->include('project_b/crud/admin/sections/profile')  -->
     </div>
 
     <!-- Assignment Section -->
@@ -146,8 +146,9 @@
 
                                         <input
                                             type="checkbox"
-                                            class="form-check-input"
+                                            class="form-check-input user-checkbox"
                                             name="chkRowId"
+                                            
                                             value="<?= $userId ?>"
                                         >
 
@@ -259,7 +260,6 @@
 
 </div>
 <script>
-    const baseUrlForAllDelete = '<?= base_url('admin/users/delete/all') ?>';
     const csrfTokenName = '<?= csrf_token() ?>';
     const csrfHash = '<?= csrf_hash() ?>';
 </script>

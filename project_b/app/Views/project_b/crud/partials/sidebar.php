@@ -24,6 +24,12 @@
                 <i class="fa fa-dashboard"></i>
                 <span>Dashboard</span>
             </a>
+            <a href="<?= base_url('users/assignments') ?>" class="sidebar-link">
+                <i class="fa fa-tasks"></i>
+                <span>
+                    My Assignments
+                </span>
+            </a>
         <?php endif; ?>
 
         <?php 

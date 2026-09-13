@@ -34,13 +34,9 @@ class UsersModelSeeder
                 $lastName = substr($name, $lastSpacePos + 1);
     
                 $rememberToken = self::getName();
-                $password = $rememberToken;
                 $stateId = rand(1,40);
     
-                $password = password_hash(
-                    $rememberToken,
-                    PASSWORD_DEFAULT
-                );
+                $password = $rememberToken;
 
                 $data = [
                     "first_name" => $firstName,
