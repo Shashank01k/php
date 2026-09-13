@@ -2,14 +2,39 @@
 
 <?= $this->section('content') ?>
 
+<?php
+    $totalUsers = 0;
+    $totalAssignments = 0;
+    $pendingAssignments = 0;
+    $pendingAssignments = 0;
+    $completedAssignments = 0;
+
+    // dd($assignments);
+?>
+
 <div class="container-fluid py-4">
 
     <h4 class="mb-4">Welcome To User Dashboard</h4>
 
+   <!-- Summary Section -->
+    <div class="mb-4">
+        <?= $this->include('project_b/crud/admin/sections/summary') ?>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="mb-4">
+        <?= $this->include('project_b/crud/admin/sections/profile') ?>
+    </div>
+
+    <!-- Assignment Section -->
+    <div class="mb-4">
+        <?= $this->include('project_b/crud/admin/sections/assignment') ?>
+    </div>
+
     <?php if ($total > 0): ?>
 
         <!-- Table -->
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm ">
 
             <div class="card-body p-0">
 
@@ -222,120 +247,7 @@
         </div>
 
 
-        <!-- Bottom section -->
-        <?php
-            $totalPages = (int) ceil($total / $perPage);
-        ?>
-
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4">
-
-            <!-- Total -->
-            <div>
-                <strong>Total Users:</strong>
-                <span class="badge bg-primary fs-6">
-                    <?= $total ?>
-                </span>
-            </div>
-
-
-            <!-- Pagination -->
-            <nav aria-label="User pagination">
-
-                <ul class="pagination mb-0">
-
-                    <!-- Previous -->
-                    <?php if ($page > 1): ?>
-
-                        <li class="page-item">
-
-                            <a
-                                class="page-link"
-                                href="<?= base_url('admin/index?page=' . ($page - 1)) ?>"
-                            >
-                                Previous
-                            </a>
-
-                        </li>
-
-                    <?php else: ?>
-
-                        <li class="page-item disabled">
-
-                            <span class="page-link">
-                                Previous
-                            </span>
-
-                        </li>
-
-                    <?php endif; ?>
-
-
-                    <!-- Pages -->
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-
-                        <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-
-                            <a
-                                class="page-link"
-                                href="<?= base_url('admin/index?page=' . $i) ?>"
-                            >
-                                <?= $i ?>
-                            </a>
-
-                        </li>
-
-                    <?php endfor; ?>
-
-
-                    <!-- Next -->
-                    <?php if ($page < $totalPages): ?>
-
-                        <li class="page-item">
-
-                            <a
-                                class="page-link"
-                                href="<?= base_url('admin/index?page=' . ($page + 1)) ?>"
-                            >
-                                Next
-                            </a>
-
-                        </li>
-
-                    <?php else: ?>
-
-                        <li class="page-item disabled">
-
-                            <span class="page-link">
-                                Next
-                            </span>
-
-                        </li>
-
-                    <?php endif; ?>
-
-
-                    <!-- Last -->
-                    <?php if ($page < $totalPages): ?>
-
-                        <li class="page-item">
-
-                            <a
-                                class="page-link"
-                                href="<?= base_url('admin/index?page=' . $totalPages) ?>"
-                            >
-                                Last
-                            </a>
-
-                        </li>
-
-                    <?php endif; ?>
-
-                </ul>
-
-            </nav>
-
-        </div>
-
+        <?= $this->include('project_b/crud/partials/pagination') ?>
 
     <?php else: ?>
 

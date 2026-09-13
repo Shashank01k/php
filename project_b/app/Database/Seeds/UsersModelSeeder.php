@@ -45,6 +45,7 @@ class UsersModelSeeder
                 "gender" => $gender,
                 "state" => $stateId,
                 'user_type' => User::USER,
+                'created_by' => null,
             ];
             $usersResponse = $usersModel->save($data);
         }

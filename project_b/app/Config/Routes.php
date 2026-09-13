@@ -22,27 +22,32 @@ $routes->get('/', 'Home::index');
 |--------------------------------------------------------------------------
 |
 */
-$routes->group('admin', static function ($routes) {
-    $namespaceAdminV1 = 'Web\V1\Admin';
 
-    $routes->match(['get','post'], 'login', $namespaceAdminV1.'\Auth\AuthController::login');
-    $routes->match(['get','post'], 'login/submit', $namespaceAdminV1.'\Auth\AuthController::loginSubmit');
+$namespaceWebV1 = 'Web\V1';
+$namespaceApiV1 = 'Api\V1';
+$namespaceAdminV1 = 'Web\V1\Admin';
+
+$routes->group('admin', static function ($routes) use ($namespaceAdminV1) {
 
     $routes->get('/', $namespaceAdminV1.'\Auth\AuthController::login');
+    $routes->get('login', $namespaceAdminV1.'\Auth\AuthController::index');
+    $routes->post('login/submit', $namespaceAdminV1.'\Auth\AuthController::loginSubmit');
+
     $routes->get('logout', $namespaceAdminV1.'\Auth\AuthController::logout');
 });
 
-$namespaceWebV1 = 'Web\V1';
 /*
 |--------------------------------------------------------------------------
 | Protected Admin Routes
 |--------------------------------------------------------------------------
 */
 $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use ($namespaceWebV1) {
-    // dd('iopii');
     // Dashboard
     $routes->get('index', $namespaceWebV1.'\UserDashboardController::index');
     $routes->match(['get','post'],'profile',$namespaceWebV1.'\UserDashboardController::profile');
+
+    $routes->get('users/register',$namespaceWebV1.'\UserRegisterController::signUp');
+    $routes->post('users/register',$namespaceWebV1.'\UserRegisterController::signUpSubmit');
 
     // Seeder
     $routes->match([
@@ -60,6 +65,33 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
     $routes->post(
         'users/delete/all',
         $namespaceWebV1 . '\UserDeleteController::deleteAll'
+    );
+
+
+    // Assignment list
+    $routes->get(
+        'assignments',
+        $namespaceWebV1 . '\Admin\AssignmentController::index'
+    );
+
+    // Assignment Create
+    $routes->match(
+        ['get', 'post'],
+        'assignments/create',
+        $namespaceWebV1 . '\Admin\AssignmentController::create'
+    );
+
+    // Assignment Edit
+    $routes->match(
+        ['get', 'post'],
+        'assignments/edit/(:num)',
+        $namespaceWebV1 . '\Admin\AssignmentController::edit/$1'
+    );
+
+    // Assignment Delete
+    $routes->post(
+        'assignments/delete/(:num)',
+        $namespaceWebV1 . '\Admin\AssignmentController::delete/$1'
     );
 });
 
@@ -87,6 +119,5 @@ $routes->match(['get','post'], '/terms',$namespaceWebV1.'\UserDashboardControlle
 | Admin APIs
 |--------------------------------------------------------------------------
 */
-$namespaceApiV1 = 'Api\V1';
 
 $routes->post('/api/v1/admin/register', $namespaceApiV1.'\Auth\AuthController::register');

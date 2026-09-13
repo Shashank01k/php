@@ -39,6 +39,7 @@ class User extends Model
         'gender',
         'state',
         'temp_password',
+        'created_by',
         'created_at',
         'deleted_at'
     ];

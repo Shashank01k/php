@@ -7,61 +7,61 @@ use App\Models\User;
 
 class AuthController extends BaseController
 {
-    public function login()
+    public function index()
     {
-        return view("project_b/crud/admin/auth/login");
+        return view('project_b/crud/admin/auth/login');
     }
 
     public function loginSubmit()
     {
-        $data = [];
+        $rules = [
+            'email' => 'required|valid_email',
+            'password' => 'required'
+        ];
 
-        $getMethod = $this->request->getMethod();
+        $errors = [
+            "password" => "Email or Password do not match!"
+        ];
 
-       
-        helper(['form']);
-        if($this->request->getMethod() == 'POST'){
+        if (!$this->validate($rules, $errors)) {
+            $data['validation'] = $this->validator;
 
-            $rules = [
-                'email' => 'required|valid_email',
-                'password' => 'required'
-            ];
-
-            $errors = [
-                "password" => "Email or Password do not match!"
-            ];
-            
-            if(!$this->validate($rules, $errors)){
-                $data['validation'] = $this->validator;
-            }else{
-                $userModel = new User();
-
-                $userEmail = $this->request->getVar('email');
-                $userPassword =  $this->request->getVar('password');
-                $userModelData = $userModel->where('email',$userEmail)->first();
+            return view('project_b/crud/admin/login', $data);
+        }
+        
+        $userEmail = $this->request->getVar('email');
+        $userPassword =  $this->request->getVar('password');
+        
+        $userModelData = (New User())->where('email',$userEmail)
+            ->where('user_type', User::SUPER_ADMIN)
+            ->first();
+        
+        if ($userModelData !== null) { 
+            if (password_verify($userPassword,$userModelData['password'])) {
+                $this->setUserSession($userModelData);
                 
-                if ($userModelData !== null) { 
-                    if(password_verify($userPassword,$userModelData['password']))
-                    {
-                        $this->setUserSession($userModelData);
-                        return redirect()->to('/admin/index');
-                    } else{
-                        $data['flashMessage'] = TRUE;
-    
-                    }
-                } else {
-                    // No data retrieved
-                    $data['validation'] = "Entered email id not found in the system!";
-                }
+                return redirect()->to('/admin/index');
+            } else {
+                    session()->setFlashdata(
+                        'flashMessage',
+                        'Invalid password.'
+                    );
+
+                    return redirect()->back();
             }
         }
+        session()->setFlashdata(
+            'flashMessage',
+            'Entered email id not found in the system!'
+        );
 
-        return view('project_b/crud/login', $data);
+        return redirect()->back();
     }
 
     public function logout()
     {
         session()->destroy();
+
         return redirect()->to('admin/login');
     }
 

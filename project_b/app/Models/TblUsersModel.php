@@ -22,6 +22,7 @@ class TblUsersModel extends \CodeIgniter\Model
                 u.email,
                 u.phone,
                 u.gender,
+                u.created_by,
                 u.state,
                 st.name,
                 u.created_at,

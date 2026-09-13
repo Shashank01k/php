@@ -28,7 +28,7 @@
 
         <?php 
             if ($userType === App\Models\User::SUPER_ADMIN): ?>
-                <a href="<?= base_url('admin/sign_up') ?>" class="sidebar-link">
+                <a href="<?= base_url('admin/users/register') ?>" class="sidebar-link">
                     <i class="fa fa-user-plus"></i>
                     <span>Add User</span>
                 </a>

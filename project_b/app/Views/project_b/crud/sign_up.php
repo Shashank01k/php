@@ -32,7 +32,7 @@
                     <h3>Create your account</h3>
 
                     <form
-                        action="<?= site_url('users/register') ?>"
+                        action="<?= site_url($userTypeUrl.'/register') ?>"
                         method="post"
                         class="signup-form"
                         >
@@ -73,7 +73,7 @@
                                     name="firstname"
                                     class="form-control"
                                     placeholder="First Name"
-                                    value="<?= set_value('firstname') ?>"
+                                    value="<?= esc(old('firstname')) ?>"
                                 >
 
                             </div>
@@ -95,7 +95,7 @@
                                     name="lastname"
                                     class="form-control"
                                     placeholder="Last Name"
-                                    value="<?= set_value('lastname') ?>"
+                                    value="<?= esc(old('lastname')) ?>"
                                 >
 
                             </div>
@@ -117,7 +117,7 @@
                                     name="email"
                                     class="form-control"
                                     placeholder="Email Address"
-                                    value="<?= set_value('email') ?>"
+                                    value="<?= esc(old('email')) ?>"
                                 >
 
                             </div>
@@ -143,7 +143,7 @@
                                     name="phone"
                                     class="form-control"
                                     placeholder="Phone Number"
-                                    value="<?= set_value('phone') ?>"
+                                    value="<?= esc(old('phone')) ?>"
                                 >
 
                             </div>
@@ -229,12 +229,8 @@
                                         <?php foreach ($statesArrayData as $state): ?>
 
                                             <option
-                                                value="<?= $state['id'] ?>"
-                                                <?= set_select(
-                                                    'state',
-                                                    $state['id'],
-                                                    set_value('state') == $state['id']
-                                                ) ?>
+                                                value="<?= esc($state['id']) ?>"
+                                                <?= old('state') == $state['id'] ? 'selected' : '' ?>
                                             >
                                                 <?= esc($state['name']) ?>
                                             </option>
@@ -244,7 +240,6 @@
                                     <?php endif; ?>
 
                                 </select>
-
                             </div>
 
                         </div>

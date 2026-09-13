@@ -22,15 +22,17 @@
                 </div>
 
                 <div class="card-body">
-
-                    <?php if (session()->getFlashdata('error')): ?>
-
+                    <?php if (isset($validation)): ?>
                         <div class="alert alert-danger">
-                            <?= esc(session()->getFlashdata('error')) ?>
+                            <?= $validation->listErrors() ?>
                         </div>
-
                     <?php endif; ?>
 
+                    <?php if (session()->getFlashdata('flashMessage')): ?>
+                        <div class="alert alert-danger">
+                            <?= esc(session()->getFlashdata('flashMessage')) ?>
+                        </div>
+                    <?php endif; ?>
 
                     <form method="post" action="<?= site_url('admin/login/submit') ?>">
 

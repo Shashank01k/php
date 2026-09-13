@@ -6,6 +6,7 @@ namespace App\Controllers\Web\V1;
 use App\Constants\UserConstant;
 use App\Controllers\BaseController;
 use App\Database\Seeds\UsersModelSeeder;
+use App\Models\Assignment;
 use App\Models\User;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Database\RawSql;
@@ -21,7 +22,15 @@ class UserDashboardController extends BaseController
     {
         $page = (int) ($this->request->getGet('page') ?? 1);
 
-        $perPage = 5;
+        $perPage = (int) $this->request->getGet('perPage');
+
+        if ($perPage < 5) {
+            $perPage = 5;
+        }
+
+        if ($perPage > 100) {
+            $perPage = 100;
+        }
 
         $tblNewsModel = new \App\Models\TblUsersModel();
 
@@ -38,6 +47,9 @@ class UserDashboardController extends BaseController
             $total,
             'default_full'
         );
+        $assignmentModel = new Assignment();
+
+        $assignments = $assignmentModel->getAssignments();
 
         $data = [
             'title' => 'Dashboard',
@@ -46,7 +58,8 @@ class UserDashboardController extends BaseController
             'paginationLinks' => $paginationLinks,
             'page' => $page,
             'perPage' => $perPage,
-            'status' => 'success'
+            'status' => 'success',
+            'assignments' => $assignmentModel->getAssignments(),
         ];
 
         return view('project_b/crud/admin/index', $data);
