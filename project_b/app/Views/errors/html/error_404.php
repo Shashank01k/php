@@ -109,6 +109,14 @@
             or the URL may be incorrect.
         </p>
 
+        <p>
+            <?php if (ENVIRONMENT !== 'production') : ?>
+                <?= nl2br(esc($message)) ?>
+            <?php else : ?>
+                <?= lang('Errors.sorryCannotFind') ?>
+            <?php endif; ?>
+        </p>
+
         <a href="<?= base_url('/') ?>"
            class="home-btn">
 

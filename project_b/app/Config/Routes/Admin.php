@@ -53,11 +53,6 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
         $namespaceAdminV1.'\UserDeleteController::delete/$1'
     );
 
-    // $routes->post(
-    //     'users/delete/all',
-    //     $namespaceAdminV1 . '\UserDeleteController::deleteAll'
-    // );
-
     // Assignment list
     $routes->get(
         'assignments',
@@ -83,6 +78,13 @@ $routes->group('admin', ['filter' => 'adminauth'], static function ($routes) use
         'assignments/delete/(:num)',
         $namespaceAdminV1 . '\AssignmentController::delete/$1'
     );
+
+    // DocumentationController
+    $routes->get(
+        'documentation',
+        $namespaceAdminV1 . '\DocumentationController::index'
+    );
+
 });
 
 // Delete All Selected Users Data

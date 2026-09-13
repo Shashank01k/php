@@ -48,6 +48,11 @@
                     <i class="fa fa-tasks"></i>
                     <span>Assignments</span>
                 </a>
+
+                <a href="<?= base_url('admin/documentation') ?>" class="sidebar-link">
+                    <i class="fa fa-book"></i>
+                    <span>Documentation</span>
+                </a>
             <?php endif; 
         ?>
     </div>
