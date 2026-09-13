@@ -72,4 +72,11 @@ class User extends Model
             ->where('users.id', $userId)
             ->first();
     }
+
+    public function getAdminUserCount(int $adminId): int
+    {
+        return (new \App\Models\User())
+            ->where('created_by', $adminId)
+            ->countAllResults();
+    }
 }

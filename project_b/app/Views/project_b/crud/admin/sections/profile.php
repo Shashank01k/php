@@ -1,8 +1,3 @@
-
-<?php
-    $userModel = null;
-?>
-
 <div class="card shadow-sm mb-4">
 
     <div class="card-header">
@@ -35,9 +30,6 @@
                 <strong>Role</strong>
                 <p>Admin</p>
             </div>
-
         </div>
-
     </div>
-
 </div>

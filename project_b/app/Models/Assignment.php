@@ -54,4 +54,22 @@ class Assignment extends Model
             ->where('assignments.is_active', 1)
             ->orderBy('assignments.created_at', 'DESC');
     }
+
+    public function getAdminAssignmentStats(int $adminId): array
+    {
+        $baseQuery = $this->where('is_active', 1)
+            ->where('created_by', $adminId);
+
+        return [
+            'totalAssignments' => (clone $baseQuery)->countAllResults(),
+
+            'pendingAssignments' => (clone $baseQuery)
+                ->where('status', 'pending')
+                ->countAllResults(),
+
+            'completedAssignments' => (clone $baseQuery)
+                ->where('status', 'completed')
+                ->countAllResults(),
+        ];
+    }
 }

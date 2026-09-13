@@ -47,7 +47,20 @@ class UserDashboardController extends BaseController
             $total,
             'default_full'
         );
+
+        $id = (int) session()->get('id');
+
+        $userModel       = new User();
         $assignmentModel = new Assignment();
+
+        $assignmentStats = $assignmentModel->getAdminAssignmentStats($id);
+
+        $summary = [
+            'totalUsers' => $userModel->where('created_by', $id)->countAllResults(),
+            'totalAssignments' => $assignmentStats['totalAssignments'],
+            'pendingAssignments' => $assignmentStats['pendingAssignments'],
+            'completedAssignments' => $assignmentStats['completedAssignments'],
+        ];
 
         $assignments = $assignmentModel->getAssignments();
 
@@ -59,7 +72,9 @@ class UserDashboardController extends BaseController
             'page' => $page,
             'perPage' => $perPage,
             'status' => 'success',
-            'assignments' => $assignmentModel->getAssignments(),
+            'assignments' => $assignments,
+            'summary' => $summary,
+            'userModel' => $userModel->find($id),
         ];
 
         return view('project_b/crud/admin/index', $data);
