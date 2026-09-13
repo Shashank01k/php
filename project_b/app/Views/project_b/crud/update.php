@@ -6,7 +6,7 @@
     <div class="col-md-12">
         <div class="col-6">
             <legend>
-                <b>Update User Data</b>
+                <b><?= $headerName ?></b>
             </legend>
             <br>
             <?php if(isset($validation)):?>
@@ -32,8 +32,8 @@
                 <br>
             <?php endif;?>
 
-            <form action="<?php echo base_url(); ?>users/profile/update/<?php echo $userDataArray['id'];?>" method="POST">
-                <!-- <form action="/register" method="POST"> -->
+            <form action="<?php echo base_url(); ?><?=  $userTypeUrl ?>/profile/update/<?php echo $userDataArray['id'];?>" method="POST">
+                <?= csrf_field() ?>
 
                         <div class="form-group">
                             <label for="firstname">First Name:</label>

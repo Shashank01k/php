@@ -32,10 +32,12 @@
                     <h3>Create your account</h3>
 
                     <form
-                        action="<?= site_url('sign_up') ?>"
+                        action="<?= site_url('users/register') ?>"
                         method="post"
                         class="signup-form"
                         >
+
+                        <?= @csrf_field() ?>
 
                         <!-- Error Message -->
                         <?php if(isset($validation)):?>

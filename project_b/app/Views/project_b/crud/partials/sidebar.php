@@ -1,5 +1,3 @@
-<?php use App\Models\User; ?>
-
 <aside id="sidebar" class="sidebar">
 
     <div class="sidebar-header">

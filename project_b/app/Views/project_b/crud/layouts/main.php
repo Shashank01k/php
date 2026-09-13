@@ -4,12 +4,16 @@
 <html lang="en">
 
 <body>
+    <?php
+        // dd(session()->get('isLoggedIn'), getLoggedInUser());
+    ?>
     <div class="page-with-sidebar">
         <!-- Header -->
         <?= $this->include('project_b/crud/partials/header') ?>
 
         <!-- Navbar -->
-        <?php if (session()->get('isLoggedIn')): ?>
+  
+        <?php if (session()->get('isLoggedIn') && !empty(getLoggedInUser()['userModel'])): ?>
             <?= $this->include('project_b/crud/partials/navbar') ?>
         <?php endif; ?>
         

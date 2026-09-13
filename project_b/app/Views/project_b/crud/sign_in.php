@@ -21,7 +21,8 @@
     <div class="text-center mt-4 name">
         InNSight
     </div>
-    <form action="<?php echo base_url(); ?>sign_in" method="post" class="p-3 mt-3">
+    <form action="<?php echo base_url(); ?>users/login" method="post" class="p-3 mt-3">
+        <?= csrf_field() ?>
         <div class="form-field d-flex align-items-center">
             <span class="far fa-user"></span>
             <input type="email" name="email" id="email" value="<?= set_value('email') ?>" placeholder="Email">
@@ -35,7 +36,7 @@
     <div class="text-center fs-6">
         <!-- <a href="#">Forget password?</a> or  -->
          
-        <a href="<?php echo base_url()?>sign_up">Sign up</a>
+        <a href="<?php echo base_url()?>users/register">Sign up</a>
     </div>
 </div>
 

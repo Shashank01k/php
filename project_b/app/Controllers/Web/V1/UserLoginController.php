@@ -60,6 +60,7 @@ class UserLoginController extends BaseController
             'id' => $userData['id'],
             'firstname' => $userData['user_name'],
             'email' => $userData['email'],
+            'user_type' => $userData['user_type'],
             'isLoggedIn' => true
         ];
 
@@ -73,7 +74,7 @@ class UserLoginController extends BaseController
         // $this->session->destroy();
         session()->destroy();
         // return redirect()->to('/login');
-        return redirect()->to('/sign_in');
+        return redirect()->to('/users/sign_in');
     }
 
     public function signIn()

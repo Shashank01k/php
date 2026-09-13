@@ -11,11 +11,26 @@ class AdminAuth implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        if(!session()->get('isLoggedIn')){
+    //     dd('opuiui'
+    //     , session()->get('user_type')
+    //     , session()->get('user_type')
+    //     , session()->get('isLoggedIn'),
+    //     csrf_hash(),
+    //     csrf_token(),
+    //     session(),
+    //     );
+    
+        if (!session()->get('isLoggedIn')) {
             return redirect()->to('/');
         }
 
-        if ((int) session()->get('user_type') !== User::SUPER_ADMIN) {
+        $userType = (int) session()->get('user_type');
+
+        if (!in_array($userType, [
+            User::SUPER_ADMIN,
+            User::ADMIN,
+            User::SUB_ADMIN,
+        ], true)) {
             return redirect()->to('/admin/login');
         }
     }

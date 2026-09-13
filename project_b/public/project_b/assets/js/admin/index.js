@@ -1,5 +1,3 @@
-console.log('this is my dashboard js file::')
-
 // select all table row checkbox 
 function selects(){  
     var ele=document.getElementsByName('chkRowId');  
@@ -20,9 +18,7 @@ function deSelect(){
 }
 
 // delete selected checkbox
-function deleteAllRows() {//TODO:this function is not completed::
-    console.log("delete row:: function in Java script"); 
-    // return false;
+function deleteAllRows111() {//TODO:this function is not completed::
 
      var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
         var selectedValues = [];
@@ -31,10 +27,8 @@ function deleteAllRows() {//TODO:this function is not completed::
             // You can also remove the row from the table here if needed
             checkbox.parentNode.parentNode.remove();
         });
-    // console.log(selectedValues);
-    // return false;
 
-    fetch('delete/all/', {
+    fetch('users/delete/all/', {
         method: 'POST',
         body: JSON.stringify({ checkboxValue: selectedValues }),
         headers: {
@@ -80,4 +74,62 @@ function copyUserNameValue(titleText) {
     messageDiv.textContent = "Copied: " + titleText;
 
     // alert("Copied the text: " + titleText);
+}
+
+
+function deleteAllRows() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    const selectedValues = [];
+    checkboxes.forEach(function (checkbox) {
+        selectedValues.push(checkbox.value);
+    });
+
+    if (selectedValues.length === 0) {
+        alert('Please select at least one user.');
+        return;
+    }
+
+    // Build Form Data
+    const params = new URLSearchParams();
+    selectedValues.forEach(function (id) {
+        params.append('checkboxValue[]', id);
+    });
+
+    // Add CSRF Token
+    params.append(csrfTokenName, csrfHash);
+
+    // Send AJAX Request
+    fetch('/admin/users/delete/all', {
+        method: 'POST',
+        body: params,
+        credentials: 'same-origin', // Crucial: Sends current admin session cookie
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(async (response) => {
+        // If session expired or filter rejected request
+        if (response.status === 401) {
+            alert('Session expired. Please log in again.');
+            window.location.href = '/admin/login';
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error('Server returned an error');
+        }
+
+        return response.json();
+    })
+    .then((data) => {
+        if (data && data.status === 'success') {
+            alert(data.message || 'Users deleted successfully.');
+            location.reload(); // Refresh table view
+        }
+    })
+    .catch((error) => {
+        console.error('AJAX Error:', error);
+    });
 }

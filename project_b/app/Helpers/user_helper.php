@@ -21,7 +21,6 @@ if (!function_exists('getLoggedInUser')) {
             'userModel' => $userModel->find($userId),
         ];
 
-
         return $data;
     }
 }

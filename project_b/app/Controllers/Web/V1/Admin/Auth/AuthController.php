@@ -72,6 +72,7 @@ class AuthController extends BaseController
             'email' => $userData['email'],
             'isLoggedIn' => true,
             'user_type' => $userData['user_type'],
+            'userTypeUrl' => 'admin',
         ];
 
         session()->set($data);

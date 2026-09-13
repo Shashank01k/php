@@ -16,24 +16,36 @@ class UserDeleteController extends BaseController
             'deleted_at' => date('Y-m-d H:i:s'),
             'status' => 0,
         ];
-        // $userModelResult = $userModel->set('deleted_at', date('Y-m-d H:i:s'))->where('id', $userId)->update();
         if($userModel->update($userId,$userDataArray)){
-            return redirect()->to('dashboard');
+            return redirect()->to('admin/index');
         }
-
-        // delete
-        // if($userModel->where('id',$userId)->delete()){
-        //     return redirect()->to('dashboard');
-        // }
     }
     public $output;
-    public function deleteAll($userData)
+    public function deleteAll()
     {
-        //
-        $response = array(
-            'message' => 'deleteAll method executed successfully'
-        );
-        // Return JSON response
-        return json_encode($response);//TODO:this function is not done
+        $data = $this->request->getJSON(true);
+
+        $selectedValues = $data['checkboxValue'] ?? [];
+
+        if (empty($selectedValues)) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'No users selected'
+            ]);
+        }
+
+        // Logged-in admin
+        $loggedInUserId = session()->get('id');
+
+        // Your delete code here
+        // $userModel = new User();
+        // $userModel->whereIn('id', $selectedValues)->delete();
+
+        return $this->response->setJSON([
+            'status'       => true,
+            'message'      => 'deleteAll method executed successfully',
+            'selected_ids' => $selectedValues,
+            'deleted_by'   => $loggedInUserId
+        ]);
     }
 }

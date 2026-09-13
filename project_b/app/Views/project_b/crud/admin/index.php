@@ -189,7 +189,7 @@
                                         
 
                                         <a
-                                            href="<?= base_url('update/' . $userId) ?>"
+                                            href="<?= base_url('admin/users/profile/update/' . $userId) ?>"
                                             class="btn btn-primary btn-sm"
                                         >
                                             <i class="fa fa-edit"></i>
@@ -197,7 +197,7 @@
                                         </a>
 
                                         <a
-                                            href="<?= base_url('delete/' . $userId) ?>"
+                                            href="<?= base_url('admin/users/delete/' . $userId) ?>"
                                             class="btn btn-danger btn-sm"
                                             onclick="return confirm('Are you sure you want to move this user to trash?')"
                                         >
@@ -250,7 +250,7 @@
 
                             <a
                                 class="page-link"
-                                href="<?= base_url('dashboard?page=' . ($page - 1)) ?>"
+                                href="<?= base_url('admin/index?page=' . ($page - 1)) ?>"
                             >
                                 Previous
                             </a>
@@ -277,7 +277,7 @@
 
                             <a
                                 class="page-link"
-                                href="<?= base_url('dashboard?page=' . $i) ?>"
+                                href="<?= base_url('admin/index?page=' . $i) ?>"
                             >
                                 <?= $i ?>
                             </a>
@@ -294,7 +294,7 @@
 
                             <a
                                 class="page-link"
-                                href="<?= base_url('dashboard?page=' . ($page + 1)) ?>"
+                                href="<?= base_url('admin/index?page=' . ($page + 1)) ?>"
                             >
                                 Next
                             </a>
@@ -321,7 +321,7 @@
 
                             <a
                                 class="page-link"
-                                href="<?= base_url('dashboard?page=' . $totalPages) ?>"
+                                href="<?= base_url('admin/index?page=' . $totalPages) ?>"
                             >
                                 Last
                             </a>
@@ -346,8 +346,12 @@
     <?php endif; ?>
 
 </div>
+<script>
+    const baseUrlForAllDelete = '<?= base_url('admin/users/delete/all') ?>';
+    const csrfTokenName = '<?= csrf_token() ?>';
+    const csrfHash = '<?= csrf_hash() ?>';
+</script>
 
-
-<script src="<?= base_url('project_b/assets/js/dashboard.js') ?>"></script>
+<script src="<?= base_url('project_b/assets/js/admin/index.js') ?>"></script>
 
 <?= $this->endSection() ?>

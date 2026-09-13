@@ -17,7 +17,6 @@ class UserDashboardController extends BaseController
     public function __construct() {
     }
 
-
     public function index()
     {
         $page = (int) ($this->request->getGet('page') ?? 1);
@@ -113,10 +112,18 @@ class UserDashboardController extends BaseController
     public function profile()
     {
         $userId = session()->get('id');
-
+        $userType = session()->get('user_type');
+        
         $userModel = new User();
-
+        
         $userDataArray = $userModel->getUserWithState($userId);
+
+        if($userType == User::SUPER_ADMIN) {
+            return view('project_b/crud/admin/profile', [
+                'title' => 'Admin Profile',
+                'userDataArray' => $userDataArray,
+            ]);
+        }
 
         return view('project_b/crud/user/profile', [
             'title' => 'Users Profile',
