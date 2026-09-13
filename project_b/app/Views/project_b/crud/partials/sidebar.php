@@ -27,7 +27,7 @@
         <?php endif; ?>
 
         <?php 
-            if ($userType === App\Models\User::SUPER_ADMIN): ?>
+            if ($userType === App\Models\User::ADMIN): ?>
                 <a href="<?= base_url('admin/users/register') ?>" class="sidebar-link">
                     <i class="fa fa-user-plus"></i>
                     <span>Add User</span>
@@ -36,6 +36,11 @@
                 <a href="<?= base_url('admin/seeder') ?>" class="sidebar-link">
                     <i class="fa fa-database"></i>
                     <span>Seeder</span>
+                </a>
+
+                <a href="<?= base_url('admin/assignments') ?>" class="sidebar-link">
+                    <i class="fa fa-tasks"></i>
+                    <span>Assignments</span>
                 </a>
             <?php endif; 
         ?>

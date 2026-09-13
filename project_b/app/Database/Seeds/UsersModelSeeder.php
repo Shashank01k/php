@@ -4,50 +4,68 @@ namespace App\Database\Seeds;
 
 use App\Models\User;
 use CodeIgniter\Database\Seeder;
+use Config\Logger;
+use Exception;
 
 // class UsersModelSeeder extends Seeder
 class UsersModelSeeder
 {
-    public function run(int $count = 5)
+    public function run(int $count, int $id)
     {
         // echo "user seeder controller::"; die;
         //
-        $usersModel = new User;
 
-        for($i=0; $i<$count; $i++){
+        try {
+            $usersModel = new User;
 
-            $faker = \Faker\Factory::create();
+            for($i=0; $i<$count; $i++){
+    
+                $faker = \Faker\Factory::create();
+    
+                $gender = 'female';
+                if($i%2 == 0){
+                    $gender = 'male';
+                }
+    
+                $name = $faker->name;
+                $lastSpacePos = strrpos($name, ' ');
+                // Extract the substrings
+                $firstName = substr($name, 0, $lastSpacePos);
+                $lastName = substr($name, $lastSpacePos + 1);
+    
+                $rememberToken = self::getName();
+                $password = $rememberToken;
+                $stateId = rand(1,40);
+    
+                $password = password_hash(
+                    $rememberToken,
+                    PASSWORD_DEFAULT
+                );
 
-            $gender = 'female';
-            if($i%2 == 0){
-                $gender = 'male';
+                $data = [
+                    "first_name" => $firstName,
+                    "last_name" => $lastName,
+                    "user_name" => $name,
+                    "email" => $faker->email,
+                    "phone" => rand(1111111111,9999999999),
+                    "password" => $password,
+                    "temp_password" => $rememberToken,
+                    "token" => null,
+                    "gender" => $gender,
+                    "state" => $stateId,
+                    'user_type' => User::USER,
+                    'created_by' => $id,
+                ];
+                
+                if (! $usersModel->save($data)) {
+                    throw new \RuntimeException(
+                        'Data not inserted: ' . json_encode($usersModel->errors())
+                    );
+                }
             }
+        } catch (\Throwable $th) {
 
-            $name = $faker->name;
-            $lastSpacePos = strrpos($name, ' ');
-            // Extract the substrings
-            $firstName = substr($name, 0, $lastSpacePos);
-            $lastName = substr($name, $lastSpacePos + 1);
-
-            $rememberToken = self::getName();
-            $password = $rememberToken;
-            $stateId = rand(1,40);
-
-            $data = [
-                "first_name" => $firstName,
-                "last_name" => $lastName,
-                "user_name" => $name,
-                "email" => $faker->email,
-                "phone" => rand(1111111111,9999999999),
-                "password" => $password,
-                "temp_password" => $rememberToken,
-                "token" => null,
-                "gender" => $gender,
-                "state" => $stateId,
-                'user_type' => User::USER,
-                'created_by' => null,
-            ];
-            $usersResponse = $usersModel->save($data);
+            log_message('error', 'Registration failed: ' . $th->getMessage());
         }
     }
 

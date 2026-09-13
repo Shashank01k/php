@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Controllers\Web\V1;
-
+namespace App\Controllers\Web\V1\Admin;
 // TODO:use const
 use App\Constants\UserConstant;
 use App\Controllers\BaseController;
@@ -13,22 +12,31 @@ use CodeIgniter\Database\RawSql;
 use CodeIgniter\Database\Seeder;
 use Config\Database;
 
-class UserDashboardController extends BaseController
+class DashboardController extends BaseController
 {
     public function __construct() {
     }
-    
-    public function dashboard()
+
+    public function index()
     {
         $page = (int) ($this->request->getGet('page') ?? 1);
 
-        $perPage = 5;
+        $perPage = (int) $this->request->getGet('perPage');
 
-        $tblNewsModel = new \App\Models\TblUsersModel();
+        if ($perPage < 5) {
+            $perPage = 5;
+        }
 
-        $tableData = $tblNewsModel->paginateNews($perPage, $page);
+        if ($perPage > 100) {
+            $perPage = 100;
+        }
 
-        $total = $tblNewsModel->getTotalCount();
+        $userModel       = new User();
+        $assignmentModel = new Assignment();
+
+        $tableData = $userModel->paginateNews($perPage, $page);
+
+        $total = $userModel->getTotalCount();
 
         // Create pager
         $pager = \Config\Services::pager();
@@ -40,6 +48,22 @@ class UserDashboardController extends BaseController
             'default_full'
         );
 
+        $id = (int) session()->get('id');
+
+        $userModel       = new User();
+        $assignmentModel = new Assignment();
+
+        $assignmentStats = $assignmentModel->getAdminAssignmentStats($id);
+
+        $summary = [
+            'totalUsers' => $userModel->where('created_by', $id)->countAllResults(),
+            'totalAssignments' => $assignmentStats['totalAssignments'],
+            'pendingAssignments' => $assignmentStats['pendingAssignments'],
+            'completedAssignments' => $assignmentStats['completedAssignments'],
+        ];
+
+        $assignments = $assignmentModel->getAssignments($id);
+
         $data = [
             'title' => 'Dashboard',
             'userDataArray' => $tableData,
@@ -47,10 +71,13 @@ class UserDashboardController extends BaseController
             'paginationLinks' => $paginationLinks,
             'page' => $page,
             'perPage' => $perPage,
-            'status' => 'success'
+            'status' => 'success',
+            'assignments' => $assignments,
+            'summary' => $summary,
+            'userModel' => $userModel->find($id),
         ];
 
-        return view('project_b/crud/dashboard', $data);
+        return view('project_b/crud/admin/index', $data);
     }
     
     public function terms()
@@ -64,35 +91,29 @@ class UserDashboardController extends BaseController
         $number = $this->request->getVar('number');
         $data['message'] = "Insert input number for create dummy Data...🤠🤠🤠";
 
+        $id = (int) session()->get('id');
+
         if($number != ''){
             $usersModelSeeder = new UsersModelSeeder();
 
-            $run = $usersModelSeeder->run($number);
+            $run = $usersModelSeeder->run($number, $id);
 
             $data['message'] = "Dummy Data Inserted Successfully...😎😎😎";
         }
 
-        return view('project_b/crud/admin/seeder',$data);
+        return view('project_b/crud/admin/seeder', $data);
     }
 
     public function profile()
     {
         $userId = session()->get('id');
-        $userType = session()->get('user_type');
-        
+
         $userModel = new User();
         
         $userDataArray = $userModel->getUserWithState($userId);
 
-        if($userType == User::ADMIN) {
-            return view('project_b/crud/admin/profile', [
-                'title' => 'Admin Profile',
-                'userDataArray' => $userDataArray,
-            ]);
-        }
-
-        return view('project_b/crud/user/profile', [
-            'title' => 'Users Profile',
+        return view('project_b/crud/admin/profile', [
+            'title' => 'Admin Profile',
             'userDataArray' => $userDataArray,
         ]);
     }

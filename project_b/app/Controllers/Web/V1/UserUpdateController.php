@@ -86,10 +86,10 @@ class UserUpdateController extends BaseController
 
         $userType = session()->get("user_type");
 
-        if ($userType == User::SUPER_ADMIN && $userId == session()->get("id")) {
+        if ($userType == User::ADMIN && $userId == session()->get("id")) {
             $data["headerName"] = 'Update Admin Data';
             $data["userTypeUrl"] = 'admin';
-        }elseif ($userType == User::SUPER_ADMIN && $userId !== session()->get("id")) {
+        }elseif ($userType == User::ADMIN && $userId !== session()->get("id")) {
             $data["headerName"] = 'Update User Data';
             $data["userTypeUrl"] = 'admin/users';
         } elseif ($userType == User::USER && $userId == session()->get("id")) {

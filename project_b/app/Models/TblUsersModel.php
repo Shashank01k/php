@@ -9,6 +9,7 @@ class TblUsersModel extends \CodeIgniter\Model
     protected $table = 'users';
     protected $primaryKey = 'id';
 
+    //TODO: remove this method
     public function paginateNews(int $perPage = 5, int $page = 1)
     {
         $offset = ($page - 1) * $perPage;
@@ -30,6 +31,7 @@ class TblUsersModel extends \CodeIgniter\Model
             )
             ->join('states AS st', 'u.state = st.id', 'left')
             ->where('st.country_id', 101)
+            ->where('u.deleted_at', null)
             ->where('u.deleted_at', null)
             ->limit($perPage, $offset)
             ->get();

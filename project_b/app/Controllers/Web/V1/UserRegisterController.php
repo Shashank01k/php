@@ -71,7 +71,7 @@ class UserRegisterController extends BaseController
                 $userId = $userModel->getInsertID();
 
                 $data['flashMessage'] = TRUE;
-                if (session()->get('user_type' == User::SUPER_ADMIN)) {
+                if (session()->get('user_type' == User::ADMIN)) {
                     return redirect()->to('/admin/index');
                 }
 

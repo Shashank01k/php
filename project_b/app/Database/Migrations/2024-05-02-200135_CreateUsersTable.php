@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             'token' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+                'default'    => null,
             ],
             'phone' => [
                 'type' => 'VARCHAR',

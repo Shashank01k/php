@@ -33,13 +33,13 @@ class Assignment extends Model
             ->limit(4);
 
         if ($userId !== null) {
-            $builder->where('assigned_to', $userId);
+            $builder->where('created_by', $userId);
         }
 
         return $builder->findAll();
     }
 
-    public function getAssignmentsWithUsers()
+    public function getAssignmentsWithUsers(int $id)
     {
         return $this
             ->select('
@@ -52,22 +52,25 @@ class Assignment extends Model
                 'left'
             )
             ->where('assignments.is_active', 1)
+            ->where('assignments.created_by', $id)
             ->orderBy('assignments.created_at', 'DESC');
     }
 
-    public function getAdminAssignmentStats(int $adminId): array
+    public function getAdminAssignmentStats(int $id): array
     {
         $baseQuery = $this->where('is_active', 1)
-            ->where('created_by', $adminId);
+            ->where('created_by', $id);
 
         return [
             'totalAssignments' => (clone $baseQuery)->countAllResults(),
 
             'pendingAssignments' => (clone $baseQuery)
                 ->where('status', 'pending')
+                ->where('created_by', $id)
                 ->countAllResults(),
 
             'completedAssignments' => (clone $baseQuery)
+                ->where('created_by', $id)
                 ->where('status', 'completed')
                 ->countAllResults(),
         ];

@@ -33,7 +33,7 @@ class AuthController extends BaseController
         $userPassword =  $this->request->getVar('password');
         
         $userModelData = (New User())->where('email',$userEmail)
-            ->where('user_type', User::SUPER_ADMIN)
+            ->where('user_type', User::ADMIN)
             ->first();
         
         if ($userModelData !== null) { 

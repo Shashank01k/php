@@ -40,7 +40,11 @@
                         <?= @csrf_field() ?>
 
                         <!-- Error Message -->
-                        <?php if(isset($validation)):?>
+                        <?php
+
+                        use App\Models\User;
+
+ if(isset($validation)):?>
                             <div class="col-12">
                                 <div class="alert alert-danger" role="alert">
                                     <?= $validation->listErrors() ?>
@@ -297,23 +301,24 @@
 
                     </form>
 
+                    <?php if(session()->get('user_type') != User::ADMIN): ?>
+                        <!-- Divider -->
+                        <div class="signup-divider">
+                            OR
+                        </div>
 
-                    <!-- Divider -->
-                    <div class="signup-divider">
-                        OR
-                    </div>
 
+                        <!-- Login -->
+                        <p class="signup-login">
 
-                    <!-- Login -->
-                    <p class="signup-login">
+                            Already Registered?
 
-                        Already Registered?
+                            <a href="<?= site_url('users/login') ?>">
+                                Log in
+                            </a>
 
-                        <a href="<?= site_url('users/login') ?>">
-                            Log in
-                        </a>
-
-                    </p>
+                        </p>
+                    <?php endif; ?>
 
                 </div>
 

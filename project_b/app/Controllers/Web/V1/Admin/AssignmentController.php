@@ -12,10 +12,12 @@ class AssignmentController extends BaseController
     {
         $assignmentModel = new Assignment();
 
+        $id = (int) session()->get('id');
+
         $data = [
             'title'       => 'All Assignments',
             'assignments' => $assignmentModel
-                ->getAssignmentsWithUsers()
+                ->getAssignmentsWithUsers($id)
                 ->paginate(10),
             'pager'       => $assignmentModel->pager,
         ];
@@ -128,7 +130,10 @@ class AssignmentController extends BaseController
         $assignmentModel = new Assignment();
         $userModel       = new User();
 
-        $assignment = $assignmentModel->find($id);
+        $loggedinUserId = session()->get('id');
+
+        $assignment = $assignmentModel->where('created_by', $loggedinUserId)
+            ->find($id);
 
         if (!$assignment) {
             return redirect()
@@ -139,6 +144,7 @@ class AssignmentController extends BaseController
         // Get active normal users
         $users = $userModel
             ->where('user_type', User::USER)
+            ->where('created_by', $loggedinUserId)
             ->where('status', 1)
             ->findAll();
 

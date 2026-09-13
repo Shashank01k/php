@@ -15,7 +15,7 @@ class AuthController extends BaseController
             'first_name' => 'required|min_length[2]|max_length[50]',
             'last_name' => 'required|min_length[2]|max_length[50]',
             'user_name' => 'required|min_length[3]|max_length[50]|is_unique[users.user_name]',
-            'phone' => 'required|numeric|min_length[10]|max_length[15]|is_unique[users.phone]',
+            // 'phone' => 'required|numeric|min_length[10]|max_length[15]|is_unique[users.phone]',
             'email' => 'required|valid_email|is_unique[users.email]',
             'password' => 'required|min_length[8]',
             'gender' => 'required|in_list[male,female,other]',
@@ -31,12 +31,28 @@ class AuthController extends BaseController
         }
 
         $code = $data['code'] ?? '';
-        if($code !== 'SUPER_ADMIN_19') {
+
+        $userTypeCodes = [
+            'ADMIN_19',
+            'SUPER_ADMIN_19',
+            'SUB_ADMIN_19'
+        ];
+
+        if (!in_array($code , $userTypeCodes)) {
             return $this->response->setStatusCode(500)->setJSON([
-                'status' => false,
-                'message' => 'User registered failed!',
-                'data' => []
+                'status'=> false,
+                'message'=> 'You do not have access',
+                'errors'=> $this->validator->getErrors()
             ]);
+        }
+
+        $userType = User::USER;
+        if($code === 'SUPER_ADMIN_19') {
+            $userType = User::SUPER_ADMIN;
+        }
+
+        if($code === 'ADMIN_19') {
+           $userType = User::ADMIN;
         }
 
         $userDataArray = [
@@ -45,10 +61,10 @@ class AuthController extends BaseController
             'user_name' => $data['user_name'] ?? '',
             'phone' => $data['phone'] ?? '',
             'email' => $data['email'] ?? '',
-            'password' => password_hash($data['password'] ?? '', PASSWORD_DEFAULT),
+            'password' => $data['password'] ?? '',
             'gender' => $data['gender'] ?? '',
             'state' => $data['state'] ?? '',
-            'user_type' => User::SUPER_ADMIN,
+            'user_type' => $userType,
         ];
 
         $userModel = new User();

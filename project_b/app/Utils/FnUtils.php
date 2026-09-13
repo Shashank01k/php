@@ -20,10 +20,8 @@ class FnUtils
         $currentUserId = (int) session()->get('id');
         $userType      = (int) session()->get('user_type');
         $userId        = (int) $userId;
-
         
-        if ($userType === User::SUPER_ADMIN) {
-            // dd($userType, User::SUPER_ADMIN);
+        if ($userType === User::ADMIN) {
 
             if ($userId === $currentUserId) {
                 // Super admin updating their own profile
