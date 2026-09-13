@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff8a00"/>
+      <stop offset="48%" stop-color="#ff1f00"/>
+      <stop offset="100%" stop-color="#ff4b00"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1000" height="1000" rx="40" fill="url(#bg)"/>
+
+  <g fill="#000000"
+     font-family="Arial, Helvetica, sans-serif"
+     font-weight="900"
+     text-anchor="middle">
+    <text x="500" y="395" font-size="190">SHREE</text>
+    <text x="500" y="610" font-size="205" letter-spacing="10">T N</text>
+  </g>
+
+  <!-- Since 2024: kept together on one line -->
+  <g fill="#000000">
+    <rect x="235" y="690" width="125" height="9"/>
+    <rect x="640" y="690" width="125" height="9"/>
+  </g>
+
+  <text x="500" y="706"
+        fill="#000000"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="42"
+        font-weight="700"
+        letter-spacing="7"
+        text-anchor="middle"
+        xml:space="preserve">since 2024</text>
+</svg>

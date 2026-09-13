@@ -88,8 +88,13 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-
-            <a class="navbar-brand" href="<?= base_url('/') ?>">
+            <a class="navbar-brand d-flex align-items-center" href="<?= base_url('/') ?>">
+                <img
+                    src="<?= base_url('project_b/assets/images/stn/shree_tn_logo.svg') ?>"
+                    alt="SHREE T N"
+                    height="50"
+                    class="me-2"
+                >
                 <?= commonData('companyName') ?? 'Our Website' ?>
             </a>
 

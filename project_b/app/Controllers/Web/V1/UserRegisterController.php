@@ -60,6 +60,7 @@ class UserRegisterController extends BaseController
         ];
 
         $userId = null;
+        
         if(!$this->validate($rules)){
             $data['validation'] = $this->validator;
         }else{
@@ -71,11 +72,13 @@ class UserRegisterController extends BaseController
                 $userId = $userModel->getInsertID();
 
                 $data['flashMessage'] = TRUE;
-                if (session()->get('user_type' == User::ADMIN)) {
+                if (session()->get('user_type') == User::ADMIN) {
                     return redirect()->to('/admin/index');
                 }
 
-                return view('project_b/crud/sign_in');
+                return redirect()
+                    ->to('/users/login')
+                    ->with('success', 'Account created successfully. Please login.');
             }
         }
 
@@ -96,6 +99,16 @@ class UserRegisterController extends BaseController
         $firstName = $request->getVar('firstname');
         $lastName = $request->getVar('lastname');
         $userName = $firstName.' '.$lastName;
+
+        $gmailUsername = trim($this->request->getVar('gmail_username'));
+        $customEmail   = trim($this->request->getVar('email'));
+
+        //TODO:remove this
+        // if (!empty($gmailUsername)) {
+        //     $email = $gmailUsername . '@gmail.com';
+        // } else {
+        //     $email = $customEmail;
+        // }
 
         return [
             'first_name' => $firstName,

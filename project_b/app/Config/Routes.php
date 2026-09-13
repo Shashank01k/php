@@ -22,15 +22,15 @@ $routes->group('users', ['filter' => 'auth'], static function ($routes) use ($na
     $routes->match(['get','post'],'profile/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1');
 });
 
-// $routes->match(['get','post'],'/sign_in',$namespaceWebV1.'\UserLoginController::signIn');
+$routes->get('users/register',$namespaceWebV1.'\UserRegisterController::signUp');
+$routes->post('users/register',$namespaceWebV1.'\UserRegisterController::signUpSubmit');
 
-$routes->match(['get','post'],'/',$namespaceWebV1.'\UserLoginController::signIn');
-$routes->match(['get','post'], 'users/register',$namespaceWebV1.'\UserRegisterController::signUp');
+$routes->match(['get','post'],'/login',$namespaceWebV1.'\UserLoginController::signIn');
 $routes->match(['get','post'],'users/login',$namespaceWebV1.'\UserLoginController::signIn');
+
 $routes->match(['get','post'],'/logout',$namespaceWebV1.'\UserLoginController::logout');
 $routes->match(['get','post'],'users/logout',$namespaceWebV1.'\UserLoginController::logout');
 
-$routes->match(['get','post'], '/register',$namespaceWebV1.'\UserRegisterController::registration');
 $routes->match(['get','post'], '/update/(:any)',$namespaceWebV1.'\UserUpdateController::update/$1',['filter' => 'auth']);
 $routes->match(['get','post'], '/terms',$namespaceWebV1.'\UserDashboardController::terms',['filter' => 'auth']);
 

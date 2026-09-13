@@ -1,84 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <title><?= lang('Errors.pageNotFound') ?></title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>404 - Page Not Found</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
     <style>
-        div.logo {
-            height: 200px;
-            width: 155px;
-            display: inline-block;
-            opacity: 0.08;
-            position: absolute;
-            top: 2rem;
-            left: 50%;
-            margin-left: -73px;
-        }
         body {
-            height: 100%;
-            background: #fafafa;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            color: #777;
-            font-weight: 300;
+            min-height: 100vh;
+            margin: 0;
+            background: #f8f8f8;
         }
-        h1 {
-            font-weight: lighter;
-            letter-spacing: normal;
-            font-size: 3rem;
-            margin-top: 0;
-            margin-bottom: 0;
-            color: #222;
+
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .wrap {
-            max-width: 1024px;
-            margin: 5rem auto;
-            padding: 2rem;
-            background: #fff;
+
+        .error-card {
+            width: 100%;
+            max-width: 500px;
+            padding: 45px 30px;
             text-align: center;
-            border: 1px solid #efefef;
-            border-radius: 0.5rem;
-            position: relative;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
         }
-        pre {
-            white-space: normal;
-            margin-top: 1.5rem;
+
+        .error-logo {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        code {
-            background: #fafafa;
-            border: 1px solid #efefef;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            display: block;
+
+        .error-code {
+            font-size: 70px;
+            line-height: 1;
+            font-weight: 800;
+            color: #e53900;
+            margin-bottom: 10px;
         }
-        p {
-            margin-top: 1.5rem;
+
+        .error-title {
+            font-size: 25px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 10px;
         }
-        .footer {
-            margin-top: 2rem;
-            border-top: 1px solid #efefef;
-            padding: 1em 2em 0 2em;
-            font-size: 85%;
-            color: #999;
+
+        .error-message {
+            color: #777;
+            margin-bottom: 25px;
         }
-        a:active,
-        a:link,
-        a:visited {
-            color: #dd4814;
+
+        .home-btn {
+            background: #e53900;
+            border: none;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-btn:hover {
+            background: #c62800;
+            color: #fff;
         }
     </style>
 </head>
-<body>
-    <div class="wrap">
-        <h1>404</h1>
 
-        <p>
-            <?php if (ENVIRONMENT !== 'production') : ?>
-                <?= nl2br(esc($message)) ?>
-            <?php else : ?>
-                <?= lang('Errors.sorryCannotFind') ?>
-            <?php endif; ?>
+<body>
+
+<div class="error-page">
+
+    <div class="error-card">
+
+        <!-- SHREE T N LOGO -->
+        <img
+            src="<?= base_url('project_b/assets/images/stn/shree_tn_logo.svg') ?>"
+            alt="SHREE T N"
+            class="error-logo"
+        >
+
+        <div class="error-code">
+            404
+        </div>
+
+        <div class="error-title">
+            Page Not Found
+        </div>
+
+        <p class="error-message">
+            Sorry, the page you are looking for does not exist
+            or the URL may be incorrect.
         </p>
+
+        <a href="<?= base_url('/') ?>"
+           class="home-btn">
+
+            <i class="fa fa-home"></i>
+            Go to Home Page
+
+        </a>
+
     </div>
+
+</div>
+
 </body>
 </html>
