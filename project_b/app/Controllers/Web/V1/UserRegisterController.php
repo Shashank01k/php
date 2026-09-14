@@ -61,13 +61,10 @@ class UserRegisterController extends BaseController
         $userId = null;
         
         if(!$this->validate($rules)){
-            $data['validation'] = $this->validator;
-
-            $data['userTypeUrl'] = 'users';
-            
-            $data['errors'] = $this->validator->getErrors();
-
-            return view('project_b/crud/sign_up', $data);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
             
         $userModel = new User();

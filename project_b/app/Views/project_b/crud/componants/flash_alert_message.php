@@ -16,9 +16,6 @@
 
 <?php endif; ?>
 
-<?php 
-// dd($errors, session()->getFlashdata('errors')); 
-?>
 <!-- Error Message -->
 <?php if ($message = session()->getFlashdata('error')): ?>
 
@@ -40,6 +37,28 @@
 <?php if (isset($errors)): ?>
 
     <div class="alert alert-danger alert-dismissible fade show auto-hide-alert">
+
+        <ul class="mb-0">
+            <?php foreach ($errors as $error): ?>
+                <li><?= esc($error) ?></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close">
+        </button>
+
+    </div>
+
+<?php endif; ?>
+
+<!-- Multiple Validation Errors -->
+<?php if ($errors = session()->getFlashdata('errors')): ?>
+
+    <div class="alert alert-danger alert-dismissible fade show auto-hide-alert"
+         role="alert">
 
         <ul class="mb-0">
             <?php foreach ($errors as $error): ?>
