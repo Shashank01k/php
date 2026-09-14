@@ -261,11 +261,15 @@
                                 <input
                                     type="password"
                                     name="password"
+                                    id="password"
                                     class="form-control"
                                     placeholder="Password"
+                                    autocomplete="off"
                                 >
 
                             </div>
+                            
+                            <?= $this->include('project_b/crud/validator/password_rules') ?>
 
                         </div>
 
@@ -286,7 +290,7 @@
                                     placeholder="Confirm Password"
                                 >
 
-                            </div>App
+                            </div>
 
                         </div>
 
@@ -329,5 +333,12 @@
     </div>
 
 </div>
+
+<script>
+    const csrfTokenName = '<?= csrf_token() ?>';
+    const csrfHash = '<?= csrf_hash() ?>';
+</script>
+
+<script src="<?= base_url('project_b/assets/js/validator/password_rules.js') ?>"></script>
 
 <?= $this->endSection() ?>

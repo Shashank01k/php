@@ -1,3 +1,6 @@
+<?php
+    $footerContactUs = commonData('footerDetails')['contactUs'];
+?>
 <footer class="site-footer">
 
     <!-- Main Footer -->
@@ -85,21 +88,20 @@
 
                 <p>
                     Email:
-                    <a href="mailto:support@example.com">
-                        support@example.com
+                    <a href="mailto:<?= $footerContactUs['email'] ?>">
+                        <?=  $footerContactUs['email'] ?>
                     </a>
                 </p>
 
                 <p>
                     Phone:
-                    <a href="tel:+919999999999">
-                        +91 99999 99999
+                    <a href="tel:<?= $footerContactUs['phone'] ?>">
+                        <?=  $footerContactUs['phone'] ?>
                     </a>
                 </p>
 
                 <p>
-                    Address: Your Company Address,
-                    India
+                    Address: <?=  $footerContactUs['address'] ?>
                 </p>
 
 

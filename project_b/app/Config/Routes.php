@@ -72,6 +72,3 @@ require APPPATH . 'Config/Routes/Admin.php';
 require APPPATH . 'Config/Routes/Api.php';
 
 $routes->post('users/create', $namespaceWebV1.'\UserRegisterController::test');
-
-// $routes->post('users/delete/all', $namespaceWebV1.'\UserRegisterController::test');
-// $routes->post('admin/users/delete/all', $namespaceWebV1.'\UserRegisterController::test');

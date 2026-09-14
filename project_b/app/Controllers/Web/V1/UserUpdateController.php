@@ -5,6 +5,7 @@ namespace App\Controllers\Web\V1;
 use App\Controllers\BaseController;
 use App\Models\States;
 use App\Models\User;
+use App\Utils\FnUtils;
 
 class UserUpdateController extends BaseController
 {
@@ -12,7 +13,6 @@ class UserUpdateController extends BaseController
 
     public function __construct()
     {
-        // $this->stateRepository = new StateRepository();
         $this->states = new States;
     }
 
@@ -24,7 +24,6 @@ class UserUpdateController extends BaseController
         }
 
         $data = [];
-        $rules = [];
 
         $db = db_connect();
         $userModel = new User();
@@ -40,14 +39,7 @@ class UserUpdateController extends BaseController
         helper(['form']);
         
         if($this->request->getMethod() == 'POST'){
-            $rules = [
-                'firstname' => 'required|regex_match[/^[a-zA-Z .]+$/]|min_length[3]|max_length[50]',
-                'lastname' => 'required',
-                'email' => 'required|min_length[8]|max_length[100]|valid_email',
-                'phone' => 'required|trim|required|numeric|min_length[10]|max_length[10]',
-                'gender' => 'required',
-                'state' => 'required',
-            ];
+            $rules = FnUtils::userValidationRules('update');
 
             if(!$this->validate($rules)){
                 $data['validation'] = $this->validator;

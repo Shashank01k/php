@@ -4,6 +4,7 @@ namespace App\Controllers\Api\V1\Auth;
 
 use App\Controllers\BaseController;
 use App\Models\User;
+use App\Utils\FnUtils;
 
 class AuthController extends BaseController
 {
@@ -82,5 +83,44 @@ class AuthController extends BaseController
             'message' => 'User registration failed',
             'errors'  => $userModel->errors()
         ]);
+    }
+
+    public function validatePassword()
+    {
+        // 1. Get request input (works for both JSON and Form Data)
+        $json = $this->request->getJSON(true);
+        
+        // 2. Safely extract password parameter
+        $password = $json['password'] ?? $this->request->getVar('password') ?? '';
+
+        // 3. Prevent TypeError: If $password is an array or non-string, extract string or cast
+        if (is_array($password)) {
+            // If nested (e.g., ['password' => 'myPass']), grab first value, otherwise fallback to empty string
+            $password = reset($password);
+        }
+
+        $passwordStr = (string) $password;
+
+        // Inspect the result
+        // dd('validate password', $password);
+
+        try {
+            $result['csrfName'] = csrf_token();
+            $result['csrfHash'] = csrf_hash();
+
+            $result = FnUtils::validatePassword($passwordStr);
+
+            return $this->response->setJSON($result);
+    
+        } catch (\Exception $e) {
+            return $this->response->setStatusCode(500)
+                ->setJSON([
+                    'status' => false,
+                    'message' => $e->getMessage(),
+                    'data' => [],
+                    'csrfName' => csrf_token(),
+                    'csrfHash' => csrf_hash(),
+            ]);
+        }
     }
 }

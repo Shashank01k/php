@@ -14,8 +14,11 @@ $namespaceApiV1 = 'Api\V1';
 |--------------------------------------------------------------------------
 */
 
-// $routes->post('api/v1/admin/register', $namespaceApiV1.'\Auth\AuthController::register');
 $routes->post(
     'api/v1/admin/register',
     '\App\Controllers\Api\V1\Auth\AuthController::register'
+);
+
+$routes->post('api/validate-password',
+    '\App\Controllers\Api\V1\Auth\AuthController::validatePassword'
 );
