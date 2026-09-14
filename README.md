@@ -40,7 +40,7 @@ Feel free to click on each screenshot to view it in full size.
 
 # Requirements
 
-  CodeIgniter version: v4.5.1
+  CodeIgniter version: v3.1.13
   PHP version: 8.2.12
   phpMyAdmin version: 5.2.1
   
