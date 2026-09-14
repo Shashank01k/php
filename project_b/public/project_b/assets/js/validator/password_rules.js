@@ -1,33 +1,27 @@
 //TODO:remove unwanted code
 document.addEventListener('DOMContentLoaded', () => {
-    const passwordInput = document.getElementById('password');
 
-    if (!passwordInput) {
-        console.error("Password input field with id='password' was not found.");
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmpassword');
+
+    if (!passwordInput || !confirmPasswordInput) {
+        console.error('Password or confirm password input not found.');
         return;
     }
 
     let csrfHeader = document.querySelector('meta[name="csrf-header"]')?.getAttribute('content') || 'X-CSRF-TOKEN';
+
+    passwordInput.addEventListener('input', validatePasswordFields);
+    confirmPasswordInput.addEventListener('input', validatePasswordFields);
     
-    passwordInput.addEventListener('input', async () => {
+    async function validatePasswordFields() {
 
-        // const latestCsrfToken = await getCsrfToken();
-
-        latestCsrfToken = await getCsrfToken();
-        // if (!latestCsrfToken) {
-        //     latestCsrfToken = await getCsrfToken();
-        // }
-
-        const password = passwordInput.value;
-
-        // console.log('passwordInput_new',passwordInput.value, password);
-        console.log(latestCsrfToken.csrfHash);
-        
+        const latestCsrfToken = await getCsrfToken();
 
         if (!latestCsrfToken) {
             return;
         }
-        // const latestCsrfTokenHash = latestCsrfToken.hash;
+
         const latestCsrfTokenHash = latestCsrfToken.csrfHash;
 
         try {
@@ -39,37 +33,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     'X-Requested-With': 'XMLHttpRequest',
                     [csrfHeader]: latestCsrfTokenHash
                 },
-                body: JSON.stringify({ password })
+
+                // KEEP YOUR EXISTING REQUEST BODY
+                body: JSON.stringify({
+                    password: passwordInput.value,
+                    confirmpassword: confirmPasswordInput.value
+                })
             });
 
             if (!response.ok) {
                 resetChecklist();
-
                 return;
             }
 
             const result = await response.json();
 
-            // Refresh CSRF Token if returned
-            // if (result.csrfName && result.csrfHash) {
-            //     csrfTokenName = result.csrfName;
-            //     csrfHash = result.csrfHash;
-            // }
-
-            // Check if server returned a success status and checks object
+            // KEEP YOUR EXISTING RESPONSE HANDLING
             if (result.status === 'success' || result.checks) {
                 updateChecklist(result.checks);
             } else {
                 resetChecklist();
             }
+
         } catch (error) {
             console.error('Validation error:', error);
 
             alert('Something went wrong. Please try again later.');
 
-            resetChecklist(); // Reset checklist on fetch exception
+            resetChecklist();
         }
-    });
+    }
 
     function updateChecklist(checks) {
         for (const [rule, passed] of Object.entries(checks)) {
@@ -99,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    let latestCsrfToken = null;
+    // let latestCsrfToken = null;
 
     async function getCsrfToken()
     {
@@ -112,9 +105,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return await response.json();
     }
 
+    function checkPasswordMatch()
+    {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        updateRule(
+            'match_password',
+            confirmPassword !== '' && password === confirmPassword
+        );
+    }
+
+    document.querySelectorAll('.password-toggle').forEach(button => {
+
+        button.addEventListener('click', () => {
+
+            const input = document.getElementById(button.dataset.target);
+            const icon = button.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+
+                button.setAttribute('aria-label', 'Hide password');
+            } else {
+                input.type = 'password';
+
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+
+                button.setAttribute('aria-label', 'Show password');
+            }
+        });
+
+});
+
     //TODO:remove
     async function getCsrfToken1()
     {
+         // if (!latestCsrfToken) {
+        //     latestCsrfToken = await getCsrfToken();
+        // }
+
+        // const password = passwordInput.value;
+
+        // console.log('passwordInput_new',passwordInput.value, password);
+        console.log(latestCsrfToken.csrfHash);
         try {
 
             const response = await fetch('http://localhost:8080/csrf-token', {

@@ -96,7 +96,7 @@ class FnUtils
         return $rules;
     }
 
-    public static function validatePassword(string $password) : array
+    public static function validatePassword(string $password, string $confirmPassword) : array
     {
         // Individual rule validations for detailed feedback
         $checks = [
@@ -106,6 +106,7 @@ class FnUtils
             'lowercase' => (bool) preg_match('/[a-z]/', $password),
             'number' => (bool) preg_match('/[0-9]/', $password),
             'special_char' => (bool) preg_match('/[!@#$%^&*(),.?":{}|<>_\-]/', $password),
+            'match_password' => $password === $confirmPassword,
         ];
 
         // Overall pass/fail check

@@ -37,21 +37,21 @@
                         class="signup-form"
                         >
 
-                        <?= @csrf_field() ?>
+                        <?=  csrf_field() ?>
 
                         <!-- Error Message -->
                         <?php
+                            use App\Models\User;
 
-                        use App\Models\User;
-
- if(isset($validation)):?>
-                            <div class="col-12">
-                                <div class="alert alert-danger" role="alert">
-                                    <?= $validation->listErrors() ?>
+                            if(isset($validation)):?>
+                                <div class="col-12">
+                                    <div class="alert alert-danger" role="alert">
+                                        <?= $validation->listErrors() ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <br>
-                        <?php endif;?>
+                                <br>
+                            <?php endif;
+                        ?>
 
                         <!-- Success Message -->
                         <?php if(isset($flashMessage)):?>
@@ -153,7 +153,6 @@
                             </div>
 
                         </div>
-
 
                         <!-- Gender -->
                         <div class="form-group">
@@ -266,13 +265,17 @@
                                     placeholder="Password"
                                     autocomplete="off"
                                 >
+                                
+                                <!-- Password Hide and Show Button -->
+                                <button type="button" class="btn btn-outline-secondary password-toggle" data-target="password" aria-label="Show password">
+                                    <i class="fa fa-eye"></i>
+                                </button>
 
                             </div>
                             
                             <?= $this->include('project_b/crud/validator/password_rules') ?>
 
                         </div>
-
 
                         <!-- Confirm Password -->
                         <div class="form-group">
@@ -285,10 +288,15 @@
 
                                 <input
                                     type="password"
+                                    id="confirmpassword"
                                     name="confirmpassword"
                                     class="form-control"
                                     placeholder="Confirm Password"
                                 >
+
+                                <button type="button" class="btn btn-outline-secondary password-toggle" data-target="confirmpassword" aria-label="Show password">
+                                    <i class="fa fa-eye"></i>
+                                </button>
 
                             </div>
 

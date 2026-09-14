@@ -91,7 +91,13 @@ class AuthController extends BaseController
         $json = $this->request->getJSON(true);
         
         // 2. Safely extract password parameter
-        $password = $json['password'] ?? $this->request->getVar('password') ?? '';
+        $password = $json['password'] 
+            ?? $this->request->getVar('password') 
+            ?? '';
+
+        $confirmPassword = $json['confirmpassword']
+            ?? $this->request->getVar('confirmpassword')
+            ?? '';
 
         // 3. Prevent TypeError: If $password is an array or non-string, extract string or cast
         if (is_array($password)) {
@@ -100,15 +106,14 @@ class AuthController extends BaseController
         }
 
         $passwordStr = (string) $password;
+        $confirmPasswordStr = (string) $confirmPassword;
 
-        // Inspect the result
-        // dd('validate password', $password);
 
         try {
             $result['csrfName'] = csrf_token();
             $result['csrfHash'] = csrf_hash();
 
-            $result = FnUtils::validatePassword($passwordStr);
+            $result = FnUtils::validatePassword($passwordStr, $confirmPasswordStr);
 
             return $this->response->setJSON($result);
     
