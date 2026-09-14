@@ -28,26 +28,8 @@
 
     </div>
 
-
-    <!-- Success Message -->
-    <?php if (session()->getFlashdata('success')): ?>
-
-        <div class="alert alert-success">
-            <?= esc(session()->getFlashdata('success')) ?>
-        </div>
-
-    <?php endif; ?>
-
-
-    <!-- Error Message -->
-    <?php if (session()->getFlashdata('error')): ?>
-
-        <div class="alert alert-danger">
-            <?= esc(session()->getFlashdata('error')) ?>
-        </div>
-
-    <?php endif; ?>
-
+    <!-- Success Message | Error Message -->
+    <?= $this->include('project_b/crud/componants/flash_alert_message') ?>
 
     <!-- Assignment Cards -->
     <?php if (!empty($assignments)): ?>

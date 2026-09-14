@@ -16,6 +16,9 @@
 
     <h4 class="mb-4">Welcome To User Dashboard</h4>
 
+    <!-- Success Message | Error Message -->
+    <?= $this->include('project_b/crud/componants/flash_alert_message') ?>
+
    <!-- Summary Section -->
     <div class="mb-4">
         <?= $this->include('project_b/crud/admin/sections/summary') ?>

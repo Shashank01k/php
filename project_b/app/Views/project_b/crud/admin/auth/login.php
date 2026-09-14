@@ -185,22 +185,9 @@
                 <h4 class="mb-0">Admin Login</h4>
             </div>
 
-
             <div class="card-body">
-
-                <?php if (isset($validation)): ?>
-                    <div class="alert alert-danger">
-                        <?= $validation->listErrors() ?>
-                    </div>
-                <?php endif; ?>
-
-
-                <?php if (session()->getFlashdata('flashMessage')): ?>
-                    <div class="alert alert-danger">
-                        <?= esc(session()->getFlashdata('flashMessage')) ?>
-                    </div>
-                <?php endif; ?>
-
+                <!-- Success Message | Error Message -->
+                <?= $this->include('project_b/crud/componants/flash_alert_message') ?>
 
                 <form method="post"
                       action="<?= site_url('admin/login/submit') ?>">

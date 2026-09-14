@@ -42,26 +42,10 @@
                         <!-- Error Message -->
                         <?php
                             use App\Models\User;
-
-                            if(isset($validation)):?>
-                                <div class="col-12">
-                                    <div class="alert alert-danger" role="alert">
-                                        <?= $validation->listErrors() ?>
-                                    </div>
-                                </div>
-                                <br>
-                            <?php endif;
                         ?>
 
-                        <!-- Success Message -->
-                        <?php if(isset($flashMessage)):?>
-                            <div class="col-12">
-                                <div class="alert alert-success" role="alert">
-                                    Registered Successfully...
-                                </div>
-                            </div>
-                            <br>
-                        <?php endif;?>
+                        <!-- Success Message | Error Message -->
+                        <?= $this->include('project_b/crud/componants/flash_alert_message') ?>
 
                         <!-- First Name -->
                         <div class="form-group">

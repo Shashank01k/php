@@ -46,6 +46,7 @@ class UserRegisterController extends BaseController
 
     public function signUpSubmit()
     {
+        // dd('popi');
         $data = [
             'title' => 'User Registration',
         ];
@@ -61,25 +62,30 @@ class UserRegisterController extends BaseController
         
         if(!$this->validate($rules)){
             $data['validation'] = $this->validator;
-        }else{
-            $userModel = new User();
+
+            $data['userTypeUrl'] = 'users';
             
-            $userDataArray = self::makeUsersPayload($this->request);
+            $data['errors'] = $this->validator->getErrors();
 
-            if($userModel->save($userDataArray)){
-                $userId = $userModel->getInsertID();
-
-                $data['flashMessage'] = TRUE;
-                if (session()->get('user_type') == User::ADMIN) {
-                    return redirect()->to('/admin/index');
-                }
-
-                return redirect()
-                    ->to('/users/login')
-                    ->with('success', 'Account created successfully. Please login.');
-            }
+            return view('project_b/crud/sign_up', $data);
         }
+            
+        $userModel = new User();
+        
+        $userDataArray = self::makeUsersPayload($this->request);
 
+        if($userModel->save($userDataArray)){
+            $userId = $userModel->getInsertID();
+
+            $data['flashMessage'] = TRUE;
+            if (session()->get('user_type') == User::ADMIN) {
+                return redirect()->to('/admin/index');
+            }
+
+            return redirect()
+                ->to('/users/login')
+                ->with('success', 'Account created successfully. Please login.');
+        }
         $data['userTypeUrl'] = FnUtils::getDetailsByUserType($userId)['userTypeUrl'];
 
         return view('project_b/crud/sign_up', $data);    

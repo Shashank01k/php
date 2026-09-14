@@ -16,7 +16,7 @@ class AuthController extends BaseController
     {
         $rules = [
             'email' => 'required|valid_email',
-            'password' => 'required'
+            'password' => 'required',
         ];
 
         $errors = [
@@ -25,8 +25,10 @@ class AuthController extends BaseController
 
         if (!$this->validate($rules, $errors)) {
             $data['validation'] = $this->validator;
+            
+            $data['errors'] = $this->validator->getErrors();
 
-            return view('project_b/crud/admin/login', $data);
+            return view('project_b/crud/admin/auth/login', $data);
         }
         
         $userEmail = $this->request->getVar('email');
@@ -40,22 +42,25 @@ class AuthController extends BaseController
             if (password_verify($userPassword,$userModelData['password'])) {
                 $this->setUserSession($userModelData);
                 
-                return redirect()->to('/admin/index');
+                return redirect()
+                    ->with('success', 'Successfully Login to Admin Dashboard.')
+                    ->to('/admin/index');
             } else {
                     session()->setFlashdata(
                         'flashMessage',
                         'Invalid password.'
                     );
 
-                    return redirect()->back();
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->with('error', 'Invalid password.');
             }
         }
-        session()->setFlashdata(
-            'flashMessage',
-            'Entered email id not found in the system!'
-        );
-
-        return redirect()->back();
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with('error', 'Entered email id not found in the system!');
     }
 
     public function logout()
