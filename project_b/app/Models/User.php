@@ -106,6 +106,7 @@ class User extends Model
             ->where('u.deleted_at', null)
             ->where('u.created_by', $id)
             ->where('user_type', User::USER)
+            ->orderBy('u.id', 'desc')
             ->limit($perPage, $offset)
             ->get();
 
