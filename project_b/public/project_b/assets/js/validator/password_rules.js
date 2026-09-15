@@ -41,12 +41,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             });
 
+            const result = await response.json();
+
+            // console.log('Full response:', result);
+            // console.log('CSRF name:', result.csrfName);
+            // console.log('CSRF hash:', result.csrfHash);
+
+            // Always update CSRF token
+            const csrfInput = document.querySelector(
+                `input[name="${result.csrfName}"]`
+            );
+            // console.log(csrfInput, result.csrfName, result.csrfHash);
+
+            if (csrfInput) {
+                csrfInput.value = result.csrfHash;
+            }
+
             if (!response.ok) {
                 resetChecklist();
                 return;
             }
-
-            const result = await response.json();
 
             // KEEP YOUR EXISTING RESPONSE HANDLING
             if (result.status === 'success' || result.checks) {

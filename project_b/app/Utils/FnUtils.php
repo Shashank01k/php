@@ -113,6 +113,8 @@ class FnUtils
         $isValid = !in_array(false, $checks, true);
 
         return [
+            'csrfName' => csrf_token(),
+            'csrfHash' => csrf_hash(),
             'status' => $isValid ? 'success' : 'error',
             'valid' => $isValid,
             'checks' => $checks,

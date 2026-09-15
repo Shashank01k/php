@@ -113,8 +113,6 @@ class AuthController extends BaseController
             $result['csrfName'] = csrf_token();
             $result['csrfHash'] = csrf_hash();
 
-            $result = FnUtils::validatePassword($passwordStr, $confirmPasswordStr);
-
             return $this->response->setJSON($result);
     
         } catch (\Exception $e) {
