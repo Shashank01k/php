@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -24,9 +25,20 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'user_name',
         'email',
         'password',
+        'token',
+        'user_type',
+        'temp_password',
+        'phone',
+        'gender',
+        'state',
+        'address',
+        'status',
+        'created_by',
     ];
 
     /**
@@ -37,6 +49,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'token',
+        'temp_password',
     ];
 
     /**
@@ -50,5 +64,48 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    //TODO:RND for query structure.
+    public function paginateNews(int $perPage = 5, int $page = 1)
+    {
+        $id = (int) session('id');
+
+        $offset = ($page - 1) * $perPage;
+
+        return DB::table('users as u')
+            ->select([
+                'u.id as u_id',
+                'u.user_name',
+                'u.email',
+                'u.phone',
+                'u.gender',
+                'u.created_by',
+                'u.state',
+                'st.name',
+                'u.created_at',
+                'u.updated_at',
+            ])
+            ->leftJoin('states as st', 'u.state', '=', 'st.id')
+            ->where('st.country_id', 101)
+            ->whereNull('u.deleted_at')
+            ->where('u.created_by', $id)
+            ->where('u.user_type', self::USER)
+            ->offset($offset)
+            ->limit($perPage)
+            ->get();
+    }
+
+    public function getTotalCount(): int
+    {
+        $id = (int) session('id');
+
+        return DB::table('users as u')
+            ->leftJoin('states as st', 'u.state', '=', 'st.id')
+            ->where('st.country_id', 101)
+            ->whereNull('u.deleted_at')
+            ->where('u.created_by', $id)
+            ->where('u.user_type', self::USER)
+            ->count();
     }
 }

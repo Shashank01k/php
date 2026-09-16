@@ -1,0 +1,130 @@
+/* =========================================
+   SIGN UP PAGE
+========================================= */
+
+.signup-page {
+    min-height: calc(100vh - 70px);
+    background: #f9ddb8;
+    padding: 45px 20px;
+    display: flex;
+    align-items: center;
+}
+
+.signup-wrapper {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+.signup-card {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.signup-left {
+    background: #f9ddb8;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.signup-left h2 {
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #222;
+}
+
+.signup-left p {
+    margin: 0;
+    color: #555;
+    font-size: 16px;
+}
+
+.signup-icon {
+    font-size: 90px;
+    color: #0d6efd;
+    margin: 15px 0 20px;
+}
+
+.signup-right {
+    padding: 40px;
+    background: #fff;
+}
+
+.signup-right h3 {
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.signup-form .form-group {
+    margin-bottom: 18px;
+}
+
+.signup-form .input-group-text {
+    width: 52px;
+    justify-content: center;
+    background: #fff;
+}
+
+.signup-form .form-control,
+.signup-form .form-select {
+    min-height: 45px;
+}
+
+.signup-form .form-check {
+    margin-top: 10px;
+}
+
+.signup-submit {
+    margin-top: 10px;
+}
+
+.signup-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0 15px;
+    color: #777;
+}
+
+.signup-divider::before,
+.signup-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.signup-login {
+    text-align: center;
+    margin: 0;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 767px) {
+
+    .signup-page {
+        padding: 25px 15px;
+    }
+
+    .signup-left {
+        padding: 30px 20px;
+    }
+
+    .signup-icon {
+        font-size: 65px;
+    }
+
+    .signup-right {
+        padding: 25px 20px;
+    }
+}

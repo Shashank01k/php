@@ -48,7 +48,8 @@ return new class extends Migration
 
             $table->integer('state');
 
-            $table->text('address');
+            $table->text('address')
+                ->nullable();
 
             // Status
             $table->boolean('status')

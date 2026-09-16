@@ -1,0 +1,44 @@
+/* Dashboard */
+
+.dashboard-table {
+    font-size: 14px;
+}
+
+.table th {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table td,
+.table th {
+    padding: 12px 10px;
+}
+
+/* Keep action buttons together */
+.table td:last-child {
+    min-width: 150px;
+}
+
+/* Email should not become extremely wide */
+.table td:nth-child(5) {
+    max-width: 250px;
+    word-break: break-word;
+}
+
+/* Pagination */
+.pagination {
+    margin-bottom: 0;
+}
+
+.page-link {
+    min-width: 40px;
+    text-align: center;
+}

@@ -52,7 +52,7 @@ class AuthController extends Controller
         $this->setUserSession($user);
 
         return redirect()
-            ->route('admin.dashboard')
+            ->route('admin.dashboard.index')
             ->with('success', 'Successfully Login to Admin Dashboard.');
     }
 

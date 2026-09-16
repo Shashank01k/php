@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7dcbb;
+    /* Light saffron background */
+}
+
+.center_div{
+    margin: 0px auto;
+    float:none;
+    padding: 48px;
+    border: 1px dashed;
+}
+
+.martop{
+    margin-top: 41px;   
+}
