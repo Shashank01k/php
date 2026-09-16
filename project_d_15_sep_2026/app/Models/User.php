@@ -13,6 +13,11 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public const SUPER_ADMIN = 1;
+    public const ADMIN = 2;
+    public const SUB_ADMIN = 3;
+    public const USER = 4;
+
     /**
      * The attributes that are mass assignable.
      *

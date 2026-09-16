@@ -12,13 +12,59 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+
+            // Primary Key
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+
+            // User Information
+            $table->string('first_name', 100);
+            $table->string('last_name', 100);
+            $table->string('user_name', 50);
+            $table->string('email', 100);
+
+            // Authentication
+            $table->string('password', 255);
+            $table->string('token', 255)->nullable();
+
+            // User Type
+            $table->tinyInteger('user_type')
+                ->nullable()
+                ->comment('1 Super Admin, 2 Admin, 3 Sub Admin, 4 User');
+
+            // Temporary Password
+            $table->string('temp_password', 255)
+                ->nullable()
+                ->comment('Token for password reset or authentication');
+
+            // Contact Information
+            $table->string('phone', 20);
+
+            // Other User Information
+            $table->enum('gender', [
+                'male',
+                'female',
+                'other',
+            ])->default('other');
+
+            $table->integer('state');
+
+            $table->text('address');
+
+            // Status
+            $table->boolean('status')
+                ->default(true)
+                ->comment('1: active, 0: inactive');
+
+            // Created By
+            $table->integer('created_by')
+                ->nullable()
+                ->comment('ID of the admin/user who created this user');
+
+            // Timestamps
             $table->timestamps();
+
+            // Soft Delete
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
