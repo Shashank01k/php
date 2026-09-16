@@ -7,6 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
     protected $fillable = [
+        'title',
+        'description',
+        'technology',
+        'assigned_to',
+        'assigned_by',
+        'created_by',
+        'status',
+        'is_active',
+        'priority',
+        'due_date',
     ];
 
     public function getAdminAssignmentStats(int $id): array

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Web\V1\Admin\AssignmentController;
 use App\Http\Controllers\Web\V1\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\V1\Admin\DashboardController;
 use App\Http\Controllers\Web\V1\Admin\ProfileController;
@@ -67,6 +68,36 @@ Route::prefix('admin')
 
         Route::post('profile/update/{userId}', [ProfileController::class, 'update'])
             ->name('profile.update');
+
+        Route::get('/assignments', [
+            AssignmentController::class,
+            'index'
+        ])->name('assignments.index');
+
+        Route::get('/assignments/create', [
+            AssignmentController::class,
+            'create'
+        ])->name('assignments.create.form');
+
+        Route::post('/assignments/create', [
+            AssignmentController::class,
+            'store'
+        ])->name('assignments.create');
+
+        Route::delete('/assignments/{id}', [
+            AssignmentController::class,
+            'destroy'
+        ])->name('assignments.destroy');
+
+        Route::put('/assignments/{assignment}', [
+    AssignmentController::class,
+    'update'
+])->name('assignments.update');
+
+Route::get('/assignments/{assignment}/edit', [
+    AssignmentController::class,
+    'edit'
+])->name('assignments.edit');
 });
 
 Route::view('/contact', 'contact')->name('contact');
