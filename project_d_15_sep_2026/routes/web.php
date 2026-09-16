@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Web\V1\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\V1\Admin\DashboardController;
+use App\Http\Controllers\Web\V1\Admin\SeederController;
 use App\Http\Controllers\Web\V1\Admin\UserRegisterController;
 use App\Http\Controllers\Web\V1\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,12 @@ Route::prefix('admin')
 
     Route::post('users/register', ['App\\Http\\Controllers\\Web\\V1\\Admin\\UserRegisterController', 'add'])
         ->name('users.register.store');
+
+        Route::get('/seeder', [SeederController::class, 'index'])
+            ->name('seeder.index');
+
+        Route::post('/seeder', [SeederController::class, 'insertDummyData'])
+            ->name('seeder.store');
 });
 
 Route::view('/contact', 'contact')->name('contact');

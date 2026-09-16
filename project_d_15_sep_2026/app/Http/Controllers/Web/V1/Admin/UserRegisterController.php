@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\V1\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Utils\FnUtils;
+use Database\Seeders\UsersModelSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -147,5 +148,31 @@ class UserRegisterController extends Controller
             'user_type' => User::USER,
             'created_by' => $createdBy,
         ];
+    }
+
+    public function insertDummyData(Request $request)
+    {
+        $data = [
+            'message' => 'Insert input number for create dummy Data...🤠🤠🤠',
+        ];
+
+        $number = $request->input('number');
+
+        $id = (int) session('id');
+
+        if ($number !== null && $number !== '') {
+
+            $usersModelSeeder = new UsersModelSeeder();
+
+            $usersModelSeeder->run(
+                (int) $number,
+                $id
+            );
+
+            $data['message'] =
+                'Dummy Data Inserted Successfully...😎😎😎';
+        }
+
+        return view('admin.seeder', $data);
     }
 }
