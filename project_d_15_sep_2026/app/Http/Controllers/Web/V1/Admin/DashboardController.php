@@ -73,4 +73,28 @@ class DashboardController extends Controller
         return view('admin.dashboard.index', $data);
     }
 
+    public function profile()
+    {
+        $userId = (int) session('id');
+
+        $userDataArray = User::query()
+            ->leftJoin('states as st', 'users.state', '=', 'st.id')
+            ->where('users.id', $userId)
+            ->select([
+                'users.*',
+                'st.name as state_name',
+            ])
+            ->first();
+
+        if (!$userDataArray) {
+            return redirect()
+                ->route('admin.dashboard.index')
+                ->with('error', 'User not found.');
+        }
+
+        return view('admin.profile.index', [
+            'title' => 'Admin Profile',
+            'userDataArray' => $userDataArray,
+        ]);
+    }
 }

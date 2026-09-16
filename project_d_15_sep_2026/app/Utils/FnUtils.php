@@ -40,7 +40,7 @@ class FnUtils
         ];
     }
 
-    public static function getDetailsByUserType($userId = null): array
+    public static function getDetailsByUserType(?int $userId = null): array
     {
         $data = [
             'userTypeUrl' => 'users',
@@ -74,5 +74,61 @@ class FnUtils
         }
 
         return $data;
+    }
+
+    public static function userValidationRules(string $type = 'add', ?int $userId = null): array
+    {
+        $rules = [
+            'firstname' => [
+                'required',
+                'regex:/^[a-zA-Z0-9 .\'-]+$/',
+                'min:3',
+                'max:50',
+            ],
+
+            'lastname' => [
+                'required',
+                'regex:/^[a-zA-Z0-9 .\'-]+$/',
+                'min:2',
+                'max:50',
+            ],
+
+            'email' => [
+                'required',
+                'min:8',
+                'max:100',
+                'email',
+            ],
+
+            'phone' => [
+                'required',
+                'numeric',
+                'digits:10',
+            ],
+
+            'gender' => [
+                'required',
+            ],
+
+            'state' => [
+                'required',
+            ],
+        ];
+
+        // Only required during ADD
+        if ($type === 'add') {
+
+            $rules['email'][] = 'unique:users,email';
+
+            $rules['password'] = [
+                'required',
+            ];
+
+            $rules['confirmpassword'] = [
+                'same:password',
+            ];
+        }
+
+        return $rules;
     }
 }
