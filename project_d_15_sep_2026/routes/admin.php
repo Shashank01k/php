@@ -6,7 +6,8 @@ use App\Http\Controllers\Web\V1\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\V1\Admin\DashboardController;
 use App\Http\Controllers\Web\V1\Admin\SeederController;
 use App\Http\Controllers\Web\V1\Admin\AssignmentController;
-use App\Http\Controllers\Web\V1\Admin\UserRegisterController;
+use App\Http\Controllers\Web\V1\Admin\Users\UserController;
+// use App\Http\Controllers\Web\V1\Admin\UserRegisterController;
 use App\Http\Controllers\Web\V1\User\UserUpdateController;
 
 
@@ -87,12 +88,12 @@ Route::middleware('web')
             */
 
             Route::get('/users/register', [
-                UserRegisterController::class,
+                UserController::class,
                 'create'
             ])->name('users.register');
 
             Route::post('/users/register', [
-                UserRegisterController::class,
+                UserController::class,
                 'add'
             ])->name('users.register.store');
 

@@ -29,12 +29,12 @@
                 <h6>QUICK LINKS</h6>
 
                 <a href="{{ url('/') }}">Home</a>
-                <a href="{{ route('dashboard') }}">Dashboard</a>
-                <a href="{{ route('sign_up') }}">Register</a>
-
+                <a href="{{ route('users.register') }}">Register</a>
+                
                 @if (session('isLoggedIn'))
+                    <a href="{{ route('users.dashboard') }}">Dashboard</a>
 
-                    <a href="{{ route('profile') }}">
+                    <a href="{{ route('login') }}">
                         My Profile
                     </a>
 

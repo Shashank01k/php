@@ -204,4 +204,12 @@ class AuthController extends Controller
             'userTypeUrl' => 'users',
         ]);
     }
+
+    public function logout(Request $request)
+    {
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return redirect()->route('users.login');
+    }
 }
