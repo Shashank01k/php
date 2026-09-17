@@ -11,6 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         api: __DIR__ .'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
+
+        then: function () {
+            $routes = [
+                'admin.php',
+            ];
+
+            foreach ($routes as $route) {
+                require base_path('routes/' . $route);
+            }
+        },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([

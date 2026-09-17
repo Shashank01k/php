@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\V1\Admin\ProfileController;
 use App\Http\Controllers\Web\V1\Admin\SeederController;
 use App\Http\Controllers\Web\V1\Admin\UserRegisterController;
 use App\Http\Controllers\Web\V1\HomeController;
+use App\Http\Controllers\Web\V1\User\Auth\AuthController as AuthAuthController;
 use App\Http\Controllers\Web\V1\User\UserUpdateController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,85 +21,40 @@ Route::get('/', [HomeController::class, 'index'])
 Route::get('/home', [HomeController::class, 'index'])
     ->name('users.home');
 
-Route::prefix('admin')
-    ->name('admin.')
-    ->group(function () {
+Route::get('/login', [
+    AuthAuthController::class,
+    'login'
+])->name('login');
 
-    Route::get('/login', [AuthController::class, 'index'])
-        ->name('login');
+Route::post('/login', [
+    AuthAuthController::class,
+    'loginSubmit'
+])->name('login.submit');
 
-    Route::post('/login/submit', [AuthController::class, 'loginSubmit'])
-        ->name('login.submit');
+Route::get('/users/login', [
+    AuthAuthController::class,
+    'login'
+])->name('users.login');
 
-    Route::post('/logout', [AuthController::class, 'logout'])
-        ->name('logout');
-});
+Route::post('/users/login', [
+    AuthAuthController::class,
+    'loginSubmit'
+])->name('users.login.submit');
 
-Route::prefix('admin')
-    ->name('admin.')
-    ->middleware('adminAuth')
-    ->group(function () {
+Route::get('/users/register', [
+    AuthAuthController::class,
+    'register'
+])->name('users.register');
 
-    Route::get('/index', [DashboardController::class, 'index'])
-        ->name('dashboard.index');
+Route::post('/users/register', [
+    AuthAuthController::class,
+    'registerSubmit'
+])->name('users.register');
 
-    Route::get('users/register', ['App\\Http\\Controllers\\Web\\V1\\Admin\\UserRegisterController', 'create'])
-        ->name('users.register');
-
-    Route::post('users/register', ['App\\Http\\Controllers\\Web\\V1\\Admin\\UserRegisterController', 'add'])
-        ->name('users.register.store');
-
-        Route::get('seeder', [SeederController::class, 'index'])
-            ->name('seeder.index');
-
-        Route::post('/seeder', [SeederController::class, 'insertDummyData'])
-            ->name('seeder.store');
-
-        Route::get('/profile', [DashboardController::class, 'profile'])
-            ->name('profile');
-
-        Route::get('users/profile/update/{userId}', [UserUpdateController::class, 'edit'])
-            ->name('users.profile.edit');
-
-        Route::post('users/profile/update/{userId}', [UserUpdateController::class, 'update'])
-            ->name('users.profile.update');
-
-        Route::get('profile/update/{userId}', [ProfileController::class, 'edit'])
-            ->name('profile.edit');
-
-        Route::post('profile/update/{userId}', [ProfileController::class, 'update'])
-            ->name('profile.update');
-
-        Route::get('/assignments', [
-            AssignmentController::class,
-            'index'
-        ])->name('assignments.index');
-
-        Route::get('/assignments/create', [
-            AssignmentController::class,
-            'create'
-        ])->name('assignments.create.form');
-
-        Route::post('/assignments/create', [
-            AssignmentController::class,
-            'store'
-        ])->name('assignments.create');
-
-        Route::delete('/assignments/{id}', [
-            AssignmentController::class,
-            'destroy'
-        ])->name('assignments.destroy');
-
-        Route::put('/assignments/{assignment}', [
-    AssignmentController::class,
-    'update'
-])->name('assignments.update');
-
-Route::get('/assignments/{assignment}/edit', [
-    AssignmentController::class,
-    'edit'
-])->name('assignments.edit');
-});
+Route::get('users/dashboard', [\App\Http\Controllers\Web\V1\User\DashboardController::class, 'index'])
+            ->name('users.dashboard');
+Route::get('dashboard', [\App\Http\Controllers\Web\V1\User\DashboardController::class, 'index'])
+            ->name('dashboard');
 
 Route::view('/contact', 'contact')->name('contact');
 
@@ -109,6 +65,6 @@ Route::view('/careers', 'careers')->name('careers');
 Route::view('/terms', 'terms')->name('terms');
 
 Route::view('/privacy', 'privacy')->name('privacy');
-Route::view('/dashboard', 'dashboard')->name('dashboard');
+// Route::view('users/dashboard', 'index')->name('users.dashboard');
 Route::view('/sign_up', 'sign_up')->name('sign_up');
 Route::view('/profile', 'profile')->name('profile');

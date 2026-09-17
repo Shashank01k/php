@@ -51,13 +51,10 @@
     href="{{ asset('assets/css/users/auth/register.css') }}"
 >
 
-{{--
-
 <link
     rel="stylesheet"
-    href="{{ asset('assets/css/sign_in.css') }}"
-> --}}
-
+    href="{{ asset('assets/css/users/auth/login.css') }}"
+>
 
 
 {{-- <link
