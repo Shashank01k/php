@@ -43,7 +43,7 @@
     <div class="user-login-logo">
 
         <img
-            src="{{ asset('assets/images/stn/shree_tn_logo.svg') }}"
+            src="{{ commonData('stnLogoPath') }}"
             alt="SHREE T N">
 
     </div>

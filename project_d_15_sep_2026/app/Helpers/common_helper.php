@@ -6,6 +6,7 @@ if (! function_exists('commonData')) {
         $data = [
             'siteName'    => 'My Website',
             'companyName' => 'SHREE T N',
+            'stnLogoPath' => asset('assets/images/stn/shree_t_n.svg'),
 
             'menuItems' => [
                 'Home',

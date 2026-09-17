@@ -34,7 +34,7 @@
                 href="{{ url('/') }}"
             >
                 <img
-                    src="{{ asset('assets/images/stn/shree_tn_logo.svg') }}"
+                    src="{{ commonData('stnLogoPath') }}"
                     alt="SHREE T N"
                     height="50"
                     class="me-2"

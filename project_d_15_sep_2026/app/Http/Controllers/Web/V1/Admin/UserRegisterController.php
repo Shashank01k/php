@@ -9,9 +9,9 @@ use Database\Seeders\UsersModelSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+//TODO:remove this controller
 class UserRegisterController extends Controller
 {
-
     public function create()
     {
         $data = [

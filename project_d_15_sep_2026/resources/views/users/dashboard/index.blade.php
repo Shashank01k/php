@@ -1,240 +1,506 @@
 @extends('layouts.main')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'User Dashboard')
 
 @section('content')
 
-@php
-    $totalUsers = 0;
-    $totalAssignments = 0;
-    $pendingAssignments = 0;
-    $completedAssignments = 0;
-@endphp
-
 <div class="container-fluid py-4">
 
-    <h4 class="mb-4">Welcome To User Dashboard</h4>
+    {{-- Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h4 class="mb-1">
+                Welcome, {{ session('firstname') }}
+            </h4>
+
+            <p class="text-muted mb-0">
+                Here's an overview of your account and assignments.
+            </p>
+        </div>
+
+    </div>
 
 
-    <!-- Success Message | Error Message -->
+    {{-- Flash Messages --}}
     @include('components.flash_alert_message')
 
 
-    <!-- Profile Section -->
-    <div class="mb-4">
-        {{-- @include('admin.sections.profile') --}}
+    {{-- Main Metrics --}}
+    <div class="row g-4 mb-4">
+
+        {{-- Total Assignments --}}
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Total Assignments
+                            </p>
+
+                            <h3 class="mb-0">
+                                {{ $totalAssignments ?? 0 }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-1 text-primary">
+                            <i class="fa fa-tasks"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ route('users.assignments.index') }}"
+                           class="btn btn-sm btn-outline-primary">
+                            View All
+                            <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Pending --}}
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Pending
+                            </p>
+
+                            <h3 class="mb-0">
+                                {{ $pendingAssignments ?? 0 }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-1 text-warning">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ route('users.assignments.index', ['status' => 'pending']) }}"
+                           class="btn btn-sm btn-outline-warning">
+                            View Pending
+                            <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- In Progress --}}
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                In Progress
+                            </p>
+
+                            <h3 class="mb-0">
+                                {{ $inProgressAssignments ?? 0 }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-1 text-info">
+                            <i class="fa fa-spinner"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ route('users.assignments.index', ['status' => 'in_progress']) }}"
+                           class="btn btn-sm btn-outline-info">
+                            Continue
+                            <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Completed --}}
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <p class="text-muted mb-1">
+                                Completed
+                            </p>
+
+                            <h3 class="mb-0">
+                                {{ $completedAssignments ?? 0 }}
+                            </h3>
+                        </div>
+
+                        <div class="fs-1 text-success">
+                            <i class="fa fa-check-circle"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{{ route('users.assignments.index', ['status' => 'completed']) }}"
+                           class="btn btn-sm btn-outline-success">
+                            View Completed
+                            <i class="fa fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 
-    <!-- Assignment Section -->
-    <div class="mb-4">
-        @include('admin.dashboard.sections.assignment')
+    {{-- Assignment Overview --}}
+    <div class="row g-4 mb-4">
+
+        {{-- Progress --}}
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                        <div>
+                            <h5 class="mb-1">
+                                Assignment Progress
+                            </h5>
+
+                            <small class="text-muted">
+                                Your overall assignment completion
+                            </small>
+                        </div>
+
+                        <i class="fa fa-bar-chart fs-3 text-primary"></i>
+
+                    </div>
+
+
+                    @php
+                        $total = $totalAssignments ?? 0;
+                        $completed = $completedAssignments ?? 0;
+
+                        $completionPercentage = $total > 0
+                            ? round(($completed / $total) * 100)
+                            : 0;
+                    @endphp
+
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>
+                            Completion
+                        </span>
+
+                        <strong>
+                            {{ $completionPercentage }}%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress" style="height: 10px;">
+
+                        <div
+                            class="progress-bar bg-success"
+                            role="progressbar"
+                            style="width: {{ $completionPercentage }}%;"
+                            aria-valuenow="{{ $completionPercentage }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100">
+                        </div>
+
+                    </div>
+
+
+                    <div class="row text-center mt-4">
+
+                        <div class="col-4">
+
+                            <h5 class="mb-1">
+                                {{ $pendingAssignments ?? 0 }}
+                            </h5>
+
+                            <small class="text-muted">
+                                Pending
+                            </small>
+
+                        </div>
+
+
+                        <div class="col-4">
+
+                            <h5 class="mb-1">
+                                {{ $inProgressAssignments ?? 0 }}
+                            </h5>
+
+                            <small class="text-muted">
+                                In Progress
+                            </small>
+
+                        </div>
+
+
+                        <div class="col-4">
+
+                            <h5 class="mb-1">
+                                {{ $completedAssignments ?? 0 }}
+                            </h5>
+
+                            <small class="text-muted">
+                                Completed
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4">
+
+                        <a href="{{ route('users.assignments.index') }}"
+                           class="btn btn-primary">
+
+                            <i class="fa fa-list me-1"></i>
+                            View All Assignments
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Quick Actions --}}
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h5 class="mb-1">
+                        Quick Actions
+                    </h5>
+
+                    <p class="text-muted mb-4">
+                        Frequently used options
+                    </p>
+
+
+                    <div class="d-grid gap-2">
+
+                        <a href="{{ route('users.assignments.index') }}"
+                           class="btn btn-outline-primary text-start">
+
+                            <i class="fa fa-tasks me-2"></i>
+                            My Assignments
+
+                            <i class="fa fa-arrow-right float-end mt-1"></i>
+
+                        </a>
+
+
+                        <a href="{{ route('users.profile.edit', session('id')) }}"
+                           class="btn btn-outline-secondary text-start">
+
+                            <i class="fa fa-user me-2"></i>
+                            My Profile
+
+                            <i class="fa fa-arrow-right float-end mt-1"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
 
-    @if ($total > 0)
+    {{-- Recent Assignments --}}
+    <div class="card border-0 shadow-sm">
 
-        <!-- Table -->
-        <div class="card shadow-sm">
+        <div class="card-body">
 
-            <div class="card-body p-0">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div>
+                    <h5 class="mb-1">
+                        Recent Assignments
+                    </h5>
+
+                    <small class="text-muted">
+                        Your latest assigned work
+                    </small>
+                </div>
+
+                <a href="{{ route('users.assignments.index') }}"
+                   class="btn btn-sm btn-outline-primary">
+
+                    View All
+                    <i class="fa fa-arrow-right ms-1"></i>
+
+                </a>
+
+            </div>
+
+
+            @if (!empty($recentAssignments) && count($recentAssignments) > 0)
 
                 <div class="table-responsive">
 
-                    <table class="table table-hover table-bordered align-middle mb-0">
+                    <table class="table table-hover align-middle mb-0">
 
-                        <thead class="table-dark">
+                        <thead>
 
                             <tr>
-
-                                <!-- Actions -->
-                                <th class="text-center" style="width: 80px;">
-
-                                    <div class="dropdown">
-
-                                        <button
-                                            class="btn btn-sm btn-light dropdown-toggle"
-                                            type="button"
-                                            id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            Actions
-                                        </button>
-
-                                        <ul
-                                            class="dropdown-menu"
-                                            aria-labelledby="dropdownMenuButton"
-                                        >
-
-                                            <li>
-                                                <button
-                                                    class="dropdown-item"
-                                                    type="button"
-                                                    onclick="selects()"
-                                                >
-                                                    Select
-                                                </button>
-                                            </li>
-
-                                            <li>
-                                                <button
-                                                    class="dropdown-item"
-                                                    type="button"
-                                                    onclick="deSelect()"
-                                                >
-                                                    Deselect
-                                                </button>
-                                            </li>
-
-                                            <li>
-                                                <button
-                                                    class="dropdown-item text-danger"
-                                                    type="button"
-                                                    onclick="deleteAllRows()"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </li>
-
-                                        </ul>
-
-                                    </div>
-
-                                </th>
-
-
-                                <th class="text-center">Sr.No.</th>
-                                <th>User Name</th>
-                                <th>Phone</th>
-                                <th>Email ID</th>
-                                <th>Gender</th>
-                                <th>State</th>
-                                <th>Created Date</th>
+                                <th>Assignment</th>
+                                <th>Technology</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Due Date</th>
                                 <th class="text-center">Action</th>
-
                             </tr>
 
                         </thead>
 
-
                         <tbody>
 
-                            @foreach ($userDataArray as $userDataValue)
-
-                                @php
-                                    $userId = $userDataValue->u_id;
-
-                                    $tempUserName = $userDataValue->user_name;
-                                    $userName = $userDataValue->user_name;
-
-                                    $tempStateName = $userDataValue->name;
-                                    $stateName = $userDataValue->name;
-
-                                    if (strlen($userName) >= 10) {
-                                        $userName = substr($userName, 0, 10) . '...';
-                                    }
-
-                                    if (strlen($stateName) >= 12) {
-                                        $stateName = substr($stateName, 0, 12) . '...';
-                                    }
-                                @endphp
-
+                            @foreach ($recentAssignments as $assignment)
 
                                 <tr>
 
-                                    <!-- Checkbox -->
+                                    <td>
+                                        <strong>
+                                            {{ $assignment->title }}
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        {{ $assignment->technology ?: '-' }}
+                                    </td>
+
+                                    <td>
+
+                                        @if ($assignment->status === 'pending')
+
+                                            <span class="badge bg-secondary">
+                                                Pending
+                                            </span>
+
+                                        @elseif ($assignment->status === 'in_progress')
+
+                                            <span class="badge bg-primary">
+                                                In Progress
+                                            </span>
+
+                                        @elseif ($assignment->status === 'completed')
+
+                                            <span class="badge bg-success">
+                                                Completed
+                                            </span>
+
+                                        @else
+
+                                            <span class="badge bg-danger">
+                                                Cancelled
+                                            </span>
+
+                                        @endif
+
+                                    </td>
+
+                                    <td>
+
+                                        @if ($assignment->priority === 'high')
+
+                                            <span class="badge bg-danger">
+                                                High
+                                            </span>
+
+                                        @elseif ($assignment->priority === 'medium')
+
+                                            <span class="badge bg-warning text-dark">
+                                                Medium
+                                            </span>
+
+                                        @else
+
+                                            <span class="badge bg-success">
+                                                Low
+                                            </span>
+
+                                        @endif
+
+                                    </td>
+
+                                    <td>
+                                        {{ $assignment->due_date
+                                            ? \Carbon\Carbon::parse($assignment->due_date)->format('d M Y')
+                                            : '-' }}
+                                    </td>
+
                                     <td class="text-center">
 
-                                        <input
-                                            type="checkbox"
-                                            class="form-check-input user-checkbox"
-                                            name="chkRowId"
-                                            value="{{ $userId }}"
-                                        >
+                                        <a href="{{ route(
+                                            'users.assignments.show',
+                                            $assignment->id
+                                        ) }}"
+                                           class="btn btn-sm btn-primary">
 
-                                    </td>
+                                            <i class="fa fa-eye"></i>
+                                            View
 
-
-                                    <!-- ID -->
-                                    <td class="text-center">
-                                        {{ $userId }}
-                                    </td>
-
-
-                                    <!-- Name -->
-                                    <td>
-
-                                        <span
-                                            data-bs-toggle="tooltip"
-                                            title="{{ $tempUserName }}"
-                                            onclick="copyUserNameValue('{{ $tempUserName }}')"
-                                            style="cursor:pointer;"
-                                        >
-                                            {{ ucwords($userName) }}
-                                        </span>
-
-                                    </td>
-
-
-                                    <!-- Phone -->
-                                    <td class="text-nowrap">
-                                        {{ $userDataValue->phone }}
-                                    </td>
-
-
-                                    <!-- Email -->
-                                    <td>
-                                        {{ $userDataValue->email }}
-                                    </td>
-
-
-                                    <!-- Gender -->
-                                    <td class="text-nowrap">
-                                        {{ ucfirst($userDataValue->gender) }}
-                                    </td>
-
-
-                                    <!-- State -->
-                                    <td>
-
-                                        <span
-                                            data-bs-toggle="tooltip"
-                                            title="{{ $tempStateName }}"
-                                        >
-                                            {{ $stateName }}
-                                        </span>
-
-                                    </td>
-
-
-                                    <!-- Created Date -->
-                                    <td class="text-nowrap">
-
-                                        {{ date('d M Y', strtotime($userDataValue->created_at)) }}
-
-                                    </td>
-
-
-                                    <!-- Actions -->
-                                    <td class="text-center text-nowrap">
-
-                                        <a
-                                            href="{{ url('admin/users/profile/update/' . $userId) }}"
-                                            class="btn btn-primary btn-sm"
-                                        >
-                                            <i class="fa fa-edit"></i>
-                                            Edit
-                                        </a>
-
-
-                                        <a
-                                            href="{{ url('admin/users/delete/' . $userId) }}"
-                                            class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure you want to move this user to trash?')"
-                                        >
-                                            <i class="fa fa-trash"></i>
-                                            Delete
                                         </a>
 
                                     </td>
@@ -249,30 +515,35 @@
 
                 </div>
 
-            </div>
+            @else
+
+                <div class="text-center py-5">
+
+                    <i class="fa fa-tasks fs-1 text-muted mb-3"></i>
+
+                    <h6>
+                        No assignments yet
+                    </h6>
+
+                    <p class="text-muted mb-3">
+                        Assignments assigned to you will appear here.
+                    </p>
+
+                    <a href="{{ route('users.assignments.index') }}"
+                       class="btn btn-primary">
+
+                        View Assignments
+
+                    </a>
+
+                </div>
+
+            @endif
 
         </div>
 
-
-        <!-- Pagination -->
-        @include('admin.users.pagination')
-
-    @else
-
-        <div class="alert alert-info text-center">
-            No Data Found 😐
-        </div>
-
-    @endif
+    </div>
 
 </div>
-
-
-<script>
-    const csrfTokenName = '{{ csrf_token() }}';
-    const csrfHash = '{{ csrf_token() }}';
-</script>
-
-<script src="{{ asset('assets/js/admin/dashboard/index.js') }}"></script>
 
 @endsection
