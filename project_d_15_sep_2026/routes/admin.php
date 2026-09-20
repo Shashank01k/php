@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\V1\Admin\Auth\AuthController;
 use App\Http\Controllers\Web\V1\Admin\DashboardController;
 use App\Http\Controllers\Web\V1\Admin\SeederController;
 use App\Http\Controllers\Web\V1\Admin\AssignmentController;
+use App\Http\Controllers\Web\V1\Admin\InterviewController;
+use App\Http\Controllers\Web\V1\Admin\InterviewQuestionController;
 use App\Http\Controllers\Web\V1\Admin\Users\UserController;
 // use App\Http\Controllers\Web\V1\Admin\UserRegisterController;
 use App\Http\Controllers\Web\V1\User\UserUpdateController;
@@ -184,6 +186,82 @@ Route::middleware('web')
                 UserUpdateController::class,
                 'update'
             ])->name('users.profile.update');
+
+             /*
+         * Interviews
+         */
+        Route::get('/interviews', [
+            InterviewController::class,
+            'index'
+        ])->name('interviews.index');
+        Route::get('/interviews/index', [
+            InterviewController::class,
+            'index'
+        ])->name('interviews.index');
+
+        Route::get('/interviews/create', [
+            InterviewController::class,
+            'create'
+        ])->name('interviews.create');
+
+        Route::post('/interviews', [
+            InterviewController::class,
+            'store'
+        ])->name('interviews.store');
+
+        Route::get('/interviews/{id}', [
+            InterviewController::class,
+            'show'
+        ])->name('interviews.show');
+
+        Route::get('/interviews/{id}/edit', [
+            InterviewController::class,
+            'edit'
+        ])->name('interviews.edit');
+
+        Route::put('/interviews/{id}', [
+            InterviewController::class,
+            'update'
+        ])->name('interviews.update');
+
+        Route::delete('/interviews/{id}', [
+            InterviewController::class,
+            'destroy'
+        ])->name('interviews.destroy');
+
+
+        /*
+         * Interview Questions
+         */
+        Route::get('/interviews/{interviewId}/questions', [
+            InterviewQuestionController::class,
+            'index'
+        ])->name('interviews.questions.index');
+
+        Route::get('/interviews/{interviewId}/questions/create', [
+            InterviewQuestionController::class,
+            'create'
+        ])->name('interviews.questions.create');
+
+        Route::post('/interviews/{interviewId}/questions', [
+            InterviewQuestionController::class,
+            'store'
+        ])->name('interviews.questions.store');
+
+        Route::get('/interviews/{interviewId}/questions/{questionId}/edit', [
+            InterviewQuestionController::class,
+            'edit'
+        ])->name('interviews.questions.edit');
+
+        Route::put('/interviews/{interviewId}/questions/{questionId}', [
+            InterviewQuestionController::class,
+            'update'
+        ])->name('interviews.questions.update');
+
+        Route::delete('/interviews/{interviewId}/questions/{questionId}', [
+            InterviewQuestionController::class,
+            'destroy'
+        ])->name('interviews.questions.destroy');
 
         });
 

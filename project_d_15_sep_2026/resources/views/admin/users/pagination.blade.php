@@ -18,6 +18,8 @@
     $queryParams = [
         'perPage' => $perPage,
     ];
+
+    $urlPrefix = $urlName ?? 'admin';
 @endphp
 
 
@@ -75,7 +77,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => $page - 1,
                             'perPage' => $perPage,
                         ]) }}"
@@ -105,7 +107,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => 1,
                             'perPage' => $perPage,
                         ]) }}"
@@ -145,7 +147,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => $i,
                             'perPage' => $perPage,
                         ]) }}"
@@ -179,7 +181,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => $totalPages,
                             'perPage' => $perPage,
                         ]) }}"
@@ -200,7 +202,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => $page + 1,
                             'perPage' => $perPage,
                         ]) }}"
@@ -231,7 +233,7 @@
 
                     <a
                         class="page-link"
-                        href="{{ url('admin/index') . '?' . http_build_query([
+                        href="{{ url($urlPrefix.'/index') . '?' . http_build_query([
                             'page' => $totalPages,
                             'perPage' => $perPage,
                         ]) }}"
@@ -278,7 +280,7 @@
 <script>
     function changePerPage(limit) {
 
-        const url = new URL('{{ url('admin/index') }}', window.location.origin);
+        const url = new URL('{{ url($urlPrefix . '/index') }}', window.location.origin);
 
         url.searchParams.set('page', 1);
         url.searchParams.set('perPage', limit);

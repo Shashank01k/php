@@ -22,9 +22,7 @@
                 <i class="fa fa-dashboard"></i>
                 <span>Admin Dashboard</span>
             </a>
-
         @else
-
             <!-- Normal User Dashboard -->
             <a href="{{ url('users/dashboard') }}" class="sidebar-link">
                 <i class="fa fa-dashboard"></i>
@@ -54,6 +52,11 @@
             <a href="{{ url('admin/assignments') }}" class="sidebar-link">
                 <i class="fa fa-tasks"></i>
                 <span>Assignments</span>
+            </a>
+
+            <a href="{{ url('admin/interviews') }}" class="sidebar-link">
+                <i class="fa fa-file-text-o"></i>
+                <span>Interviews</span>
             </a>
 
             <a href="{{ url('admin/documentation') }}" class="sidebar-link">
