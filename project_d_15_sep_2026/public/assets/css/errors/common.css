@@ -1,0 +1,492 @@
+/* =========================================================
+   SHREE T N - COMMON ERROR PAGE
+   Prefix: stn-error-
+   ========================================================= */
+
+#stn-error-page {
+    --stn-error-primary: #263a8b;
+    --stn-error-secondary: #5b6ee1;
+    --stn-error-dark: #17213f;
+    --stn-error-text: #ffffff;
+    --stn-error-muted: rgba(255, 255, 255, 0.78);
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px 20px;
+
+    /* background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 255, 255, 0.18) 0,
+            rgba(255, 255, 255, 0) 28%
+        ),
+        radial-gradient(
+            circle at 85% 75%,
+            rgba(255, 255, 255, 0.15) 0,
+            rgba(255, 255, 255, 0) 30%
+        ),
+        linear-gradient(
+            135deg,
+            #17213f 0%,
+            #263a8b 45%,
+            #4057b8 100%
+        ); */
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(0, 211, 202, 0.28) 0,
+            rgba(0, 211, 202, 0) 32%
+        ),
+        radial-gradient(
+            circle at 10% 80%,
+            rgba(0, 140, 135, 0.30) 0,
+            rgba(0, 140, 135, 0) 35%
+        ),
+        linear-gradient(
+            135deg,
+            #031417 0%,
+            #043f43 48%,
+            #006b68 100%
+        );
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   ABSTRACT BACKGROUND
+   ========================================================= */
+
+#stn-error-page::before,
+#stn-error-page::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    pointer-events: none;
+
+    border-radius: 50%;
+}
+
+
+/* Large top-left watercolor shape */
+#stn-error-page::before {
+    width: 650px;
+    height: 650px;
+
+    top: -300px;
+    left: -180px;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(112, 229, 255, 0.55),
+            rgba(112, 229, 255, 0.15) 45%,
+            transparent 70%
+        );
+
+    filter: blur(8px);
+}
+
+
+/* Large bottom-right watercolor shape */
+#stn-error-page::after {
+    width: 750px;
+    height: 750px;
+
+    right: -300px;
+    bottom: -380px;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(90, 229, 190, 0.45),
+            rgba(90, 229, 190, 0.10) 48%,
+            transparent 72%
+        );
+
+    filter: blur(12px);
+}
+
+
+/* =========================================================
+   WATERMARK / RECURSIVE BACKGROUND
+   ========================================================= */
+
+#stn-error-watermark {
+    position: absolute;
+    inset: 0;
+
+    z-index: -1;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    opacity: 0.055;
+}
+
+
+/* Repeated logo/text */
+#stn-error-watermark::before {
+    content:
+        "SHREE T N   •   SHREE T N   •   SHREE T N   •   "
+        "SHREE T N   •   SHREE T N   •   SHREE T N   •   "
+        "SHREE T N   •   SHREE T N   •   SHREE T N   •   "
+        "SHREE T N   •   SHREE T N   •   SHREE T N";
+
+    position: absolute;
+
+    width: 160%;
+    height: 160%;
+
+    top: -30%;
+    left: -30%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: 12px;
+    line-height: 2;
+
+    color: #ffffff;
+
+    transform: rotate(-25deg);
+}
+
+
+/* =========================================================
+   ABSTRACT CIRCLES
+   ========================================================= */
+
+.stn-error-shape {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(2px);
+}
+
+
+#stn-error-shape-one {
+    width: 320px;
+    height: 320px;
+
+    top: 8%;
+    right: 8%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.16),
+            rgba(255, 255, 255, 0)
+        );
+}
+
+
+#stn-error-shape-two {
+    width: 430px;
+    height: 430px;
+
+    bottom: -100px;
+    left: 5%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(91, 224, 210, 0.24),
+            rgba(91, 224, 210, 0)
+        );
+}
+
+
+#stn-error-shape-three {
+    width: 220px;
+    height: 220px;
+
+    top: 50%;
+    left: -80px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.10),
+            transparent 70%
+        );
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+#stn-error-content {
+    position: relative;
+
+    z-index: 5;
+
+    width: 100%;
+    max-width: 650px;
+
+    text-align: center;
+
+    color: var(--stn-error-text);
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+#stn-error-logo {
+    display: block;
+
+    width: auto;
+    max-width: 190px;
+    max-height: 90px;
+
+    margin: 0 auto 30px;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 5px 15px rgba(0, 0, 0, 0.18));
+}
+
+
+/* =========================================================
+   ERROR CODE
+   ========================================================= */
+
+#stn-error-code {
+    margin: 0;
+
+    font-size: clamp(90px, 15vw, 170px);
+
+    font-weight: 900;
+
+    line-height: 0.9;
+
+    letter-spacing: -7px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   ERROR TITLE
+   ========================================================= */
+
+#stn-error-title {
+    margin-top: 25px;
+
+    font-size: clamp(26px, 4vw, 42px);
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+   ========================================================= */
+
+#stn-error-message {
+    max-width: 550px;
+
+    margin: 18px auto 0;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: var(--stn-error-muted);
+}
+
+
+/* =========================================================
+   ERROR DETAILS
+   ========================================================= */
+
+#stn-error-details {
+    max-width: 600px;
+
+    margin: 20px auto 0;
+
+    padding: 14px 18px;
+
+    text-align: left;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, 0.85);
+
+    background: rgba(0, 0, 0, 0.14);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 8px;
+
+    overflow-wrap: anywhere;
+
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   HOME BUTTON
+   ========================================================= */
+
+#stn-error-home-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 30px;
+
+    min-width: 180px;
+
+    padding: 13px 24px;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: var(--stn-error-primary);
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+#stn-error-home-btn:hover {
+    color: var(--stn-error-primary);
+
+    background: #f4f7ff;
+
+    text-decoration: none;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   SMALL DECORATIVE WAVES
+   ========================================================= */
+
+#stn-error-wave {
+    position: absolute;
+
+    left: -5%;
+    bottom: -100px;
+
+    width: 110%;
+    height: 230px;
+
+    z-index: -1;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(65, 214, 177, 0.38) 0%,
+            rgba(65, 214, 177, 0.15) 45%,
+            transparent 70%
+        );
+
+    border-radius: 50%;
+
+    transform: rotate(-2deg);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    #stn-error-page {
+        padding: 40px 20px;
+    }
+
+    #stn-error-watermark::before {
+        font-size: 45px;
+        letter-spacing: 7px;
+    }
+
+    #stn-error-logo {
+        max-width: 150px;
+        max-height: 70px;
+    }
+
+    #stn-error-message {
+        font-size: 15px;
+    }
+
+    #stn-error-details {
+        font-size: 12px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    #stn-error-page {
+        padding: 30px 15px;
+    }
+
+    #stn-error-watermark::before {
+        font-size: 30px;
+        letter-spacing: 4px;
+    }
+
+    #stn-error-title {
+        margin-top: 20px;
+    }
+
+    #stn-error-home-btn {
+        width: 100%;
+        max-width: 220px;
+    }
+
+}

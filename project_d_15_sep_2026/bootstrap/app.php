@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Middleware\AdminAuthMiddleware;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,5 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+
+        $exceptions->render(function (QueryException $e) {
+            Log::error($e->getMessage());
+            
+            return response()->view('errors.database', [], 503);
+
+        });
+
     })->create();

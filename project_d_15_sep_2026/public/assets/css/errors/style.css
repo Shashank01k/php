@@ -1,0 +1,67 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    background: #f8f8f8;
+}
+
+.error-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.error-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 45px 30px;
+    text-align: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+.error-logo {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.error-code {
+    font-size: 70px;
+    line-height: 1;
+    font-weight: 800;
+    color: #e53900;
+    margin-bottom: 10px;
+}
+
+.error-title {
+    font-size: 25px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.home-btn {
+    background: #e53900;
+    border: none;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.home-btn:hover {
+    background: #c62800;
+    color: #fff;
+}
